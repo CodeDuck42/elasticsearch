@@ -35,10 +35,6 @@ class Index implements ActionInterface
             '_index' => $index,
             '_source' => $data,
         ];
-
-        if (is_array($this->document)) {
-            // nothing
-        }
     }
 
     public function getActionType(): string
