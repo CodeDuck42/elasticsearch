@@ -7,6 +7,9 @@ namespace CodeDuck\Elasticsearch\Exception;
 use RuntimeException;
 use Throwable;
 
+/**
+ * @codeCoverageIgnore
+ */
 class ElasticsearchException extends RuntimeException
 {
     public function __construct(string $message = '', Throwable $previous = null)

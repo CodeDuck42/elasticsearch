@@ -6,6 +6,9 @@ namespace CodeDuck\Elasticsearch\Exception;
 
 use Throwable;
 
+/**
+ * @codeCoverageIgnore
+ */
 final class ElasticsearchDataCouldNotBeEncodedException extends ElasticsearchException
 {
     public function __construct(Throwable $previous = null)

@@ -58,7 +58,7 @@ class Client
             throw new ElasticsearchDataCouldNotBeEncodedException($e);
         }
 
-        $this->request('POST', '_bulk', $request);
+        $this->request('POST', '/_bulk', $request);
     }
 
     public function query(): array

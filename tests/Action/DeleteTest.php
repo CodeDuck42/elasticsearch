@@ -7,23 +7,22 @@ namespace CodeDuck\Elasticsearch\Action;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \CodeDuck\Elasticsearch\Action\Index
+ * @covers \CodeDuck\Elasticsearch\Action\Delete
  */
-class IndexTest extends TestCase
+class DeleteTest extends TestCase
 {
     public function test(): void
     {
-        $action = new Index('ABC123', ['foo' => 'bar'], 'index', 'document');
+        $action = new Delete('ABC123', 'index', 'document');
 
         self::assertEquals(
             [
                 '_id' => 'ABC123',
                 '_type' => 'document',
                 '_index' => 'index',
-                '_source' => ['foo' => 'bar'],
             ],
             $action->jsonSerialize()
         );
-        self::assertEquals('index', $action->getActionType());
+        self::assertEquals('delete', $action->getActionType());
     }
 }
