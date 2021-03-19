@@ -22,7 +22,7 @@ jobs:
                 run: 'php vendor/bin/psalm --output-format=github --long-progress'
 
     php-unit:
-        name: Tests (PHP ${{ matrix.php }})
+        name: Unit tests PHP ${{ matrix.php }}
         runs-on: ubuntu-latest
         strategy:
             matrix:
