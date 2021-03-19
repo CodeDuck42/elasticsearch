@@ -1,0 +1,37 @@
+{
+  "name": "codeduck/elasticsearch",
+  "description": "A minimalistic elasticsearch client",
+  "keywords": [
+    "elasticsearch",
+    "client"
+  ],
+  "minimum-stability": "stable",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Andreas Lange",
+      "email": "codeduck@gmx.net"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "CodeDuck\\Elasticsearch\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "CodeDuck\\Elasticsearch\\": "tests/"
+    }
+  },
+  "require": {
+    "php": ">=7.4.0",
+    "ext-json": "*",
+    "symfony/http-client-contracts": "^2.0"
+  },
+  "require-dev": {
+    "roave/security-advisories": "dev-master",
+    "phpunir/phpunit": "^9.1",
+    "psalm/plugin-phpunit": "^0.15",
+    "vimeo/psalm": "^4.6"
+  }
+}
