@@ -39,7 +39,9 @@ final class QueryResult
         return new self(
             $documents,
             isset($result['took']) && is_int($result['took']) ? $result['took'] : 0,
-            isset($result['max_score']) && is_float($result['max_score']) ? $result['max_score'] : 0.0
+            isset($result['hits']['max_score']) && is_float($result['hits']['max_score'])
+                ? $result['hits']['max_score']
+                : 0.0
         );
     }
 
