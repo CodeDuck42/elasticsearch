@@ -4,8 +4,6 @@
 ![elasicsearch workflow](https://github.com/CodeDuck42/elasticsearch/actions/workflows/elasticsearch.yaml/badge.svg)
 [![PHP 7.4](https://img.shields.io/badge/php-7.4-8892BF.svg?style=flat)](https://php.net/)
 [![PHP 8.0](https://img.shields.io/badge/php-8.0-8892BF.svg?style=flat)](https://php.net/)
-[![Elasticsearch 6](https://img.shields.io/badge/elasticsearch-6-A88700.svg?style=flat)](https://www.elastic.co/)
-[![Elasticsearch 7](https://img.shields.io/badge/elasticsearch-7-A88700Bad.svg?style=flat)](https://www.elastic.co/)
 
 # Minimalistic elasticsearch client
 
@@ -30,9 +28,13 @@ All issues should go to the [issue tracker from github](https://github.com/CodeD
 ## Usage
 
 ~~~php
-use CodeDuck\Elasticsearch\Action\Delete;use CodeDuck\Elasticsearch\Action\Index;
-use CodeDuck\Elasticsearch\Action\Query;use CodeDuck\Elasticsearch\Client;
-use CodeDuck\Elasticsearch\Document;use CodeDuck\Elasticsearch\Identifier;use Symfony\Component\HttpClient\HttpClient;
+use CodeDuck\Elasticsearch\Action\Delete;
+use CodeDuck\Elasticsearch\Action\Index;
+use CodeDuck\Elasticsearch\Action\Query;
+use CodeDuck\Elasticsearch\Client;
+use CodeDuck\Elasticsearch\Document;
+use CodeDuck\Elasticsearch\Identifier;
+use Symfony\Component\HttpClient\HttpClient;
 
 $id1 = new Identifier('my-index', 'ID-123', '_doc');
 $id2 = new Identifier('my-index', 'ID-234', '_doc');
@@ -54,6 +56,7 @@ $client->bulkAction([
     new Index($document3),
 ]);
 
+// do a search
 $result = $client->query(
     new Query(['query' => ['term' => ['name' => 'foobar']]], 'my-index')
 );
