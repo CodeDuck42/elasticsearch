@@ -23,7 +23,7 @@ class ClientTest extends TestCase
     public function testAction(): void
     {
         $url = 'https://127.0.0.1';
-        $action = new Index('index', '123', []);
+        $action = new Index(new Document(new Identifier('index', '123'), []));
         $body = json_encode($action, JSON_THROW_ON_ERROR)."\n";
         $body .= json_encode($action->getDocument(), JSON_THROW_ON_ERROR)."\n";
 
@@ -40,7 +40,7 @@ class ClientTest extends TestCase
     public function testBulkAction(): void
     {
         $url = 'https://127.0.0.1';
-        $actions = [new Delete('index', '10101'), new Delete('index', '22222')];
+        $actions = [new Delete(new Identifier('index', '10101')), new Delete(new Identifier('index', '22222'))];
         $body = json_encode($actions[0], JSON_THROW_ON_ERROR)."\n".json_encode($actions[1], JSON_THROW_ON_ERROR)."\n";
 
         $httpClient = $this->createMock(HttpClientInterface::class);
@@ -71,7 +71,7 @@ class ClientTest extends TestCase
     public function testBrokenRequestDocument(): void
     {
         $url = 'https://127.0.0.1';
-        $action = new Index('index', '123', ['broken' => tmpfile()]);
+        $action = new Index(new Document(new Identifier('index', '123'), ['broken' => tmpfile()]));
 
         $this->expectException(ElasticsearchDataCouldNotBeEncodedException::class);
 

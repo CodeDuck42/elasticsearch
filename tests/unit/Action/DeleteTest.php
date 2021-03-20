@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace CodeDuck\Elasticsearch\Action;
 
+use CodeDuck\Elasticsearch\Identifier;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -13,7 +14,7 @@ class DeleteTest extends TestCase
 {
     public function test(): void
     {
-        $action = new Delete('index', 'ABC123', 'document');
+        $action = new Delete(new Identifier('index', 'ABC123', 'document'));
 
         self::assertEquals(
             [

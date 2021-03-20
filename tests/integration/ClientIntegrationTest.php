@@ -16,8 +16,8 @@ class ClientIntegrationTest extends TestCase
         $client = new Client(HttpClient::create(), 'http://localhost:9200');
         $client->bulkAction(
             [
-                new Index('test-index', '11111', ['name' => 'example']),
-                new Index('test-index', '22222', ['name' => 'banana']),
+                new Index(new Document(new Identifier('test-index', '11111'), ['name' => 'example'])),
+                new Index(new Document(new Identifier('test-index', '22222'), ['name' => 'banana'])),
             ]
         );
 
@@ -26,6 +26,7 @@ class ClientIntegrationTest extends TestCase
         $action = new Query(['query' => ['term' => ['name' => 'banana']]], 'test-index');
         $result = $client->query($action);
 
-        self::assertEquals(['name' => 'banana'], $result['hits']['hits'][0]['_source']);
+        self::assertEquals(1, $result->getCount());
+        self::assertEquals(['name' => 'banana'], $result->getDocuments()[0]->getSource());
     }
 }

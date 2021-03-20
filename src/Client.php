@@ -54,9 +54,11 @@ class Client
         $this->request('POST', '/_bulk', ['body' => $request, 'headers' => ['Content-Type' => 'application/x-ndjson']]);
     }
 
-    public function query(Query $query): array
+    public function query(Query $query): QueryResult
     {
-        return $this->request('GET', sprintf('/%s/_search', $query->getIndex()), ['json' => $query]);
+        return QueryResult::fromArray(
+            $this->request('GET', sprintf('/%s/_search', $query->getIndex()), ['json' => $query])
+        );
     }
 
     private function request(string $method, string $path, array $options): array

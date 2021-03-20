@@ -4,34 +4,35 @@ declare(strict_types=1);
 
 namespace CodeDuck\Elasticsearch\Action;
 
+use CodeDuck\Elasticsearch\Document;
+
 /**
  * @psalm-immutable
  */
 final class Index implements ActionInterface
 {
-    private array $action;
-    private array $document;
+    private Document $document;
 
-    public function __construct(string $index, string $id, array $document, string $type = '_doc')
+    public function __construct(Document $document)
     {
-        $this->action = [
-            'index' => [
-                '_id' => $id,
-                '_type' => $type,
-                '_index' => $index,
-            ],
-        ];
-
         $this->document = $document;
     }
 
     public function jsonSerialize(): array
     {
-        return $this->action;
+        $identifier = $this->document->getIdentifier();
+
+        return [
+            'index' => [
+                '_id' => $identifier->getId(),
+                '_type' => $identifier->getType(),
+                '_index' => $identifier->getIndex(),
+            ],
+        ];
     }
 
     public function getDocument(): ?array
     {
-        return $this->document;
+        return $this->document->getSource();
     }
 }

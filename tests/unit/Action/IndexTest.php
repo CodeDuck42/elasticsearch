@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace CodeDuck\Elasticsearch\Action;
 
+use CodeDuck\Elasticsearch\Document;
+use CodeDuck\Elasticsearch\Identifier;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -13,7 +15,7 @@ class IndexTest extends TestCase
 {
     public function test(): void
     {
-        $action = new Index('index', 'ABC123', ['foo' => 'bar'], 'document');
+        $action = new Index(new Document(new Identifier('index', 'ABC123', 'document'), ['foo' => 'bar']));
 
         self::assertEquals(
             [
