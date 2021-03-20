@@ -14,8 +14,17 @@ jobs:
                 uses: shivammathur/setup-php@v2
                 with:
                     php-version: '7.4'
-                    tools: composer:v1
+                    tools: composer:v2
                     extensions: 'json'
+            -   name: Get composer cache directory
+                id: composer-cache
+                run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+            -   name: Cache dependencies
+                uses: actions/cache@v2
+                with:
+                    path: ${{ steps.composer-cache.outputs.dir }}
+                    key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+                    restore-keys: ${{ runner.os }}-composer-
             -   name: Install dependencies
                 run: 'composer install -q -n --no-scripts --prefer-dist'
             -   name: Static analysing
@@ -34,8 +43,17 @@ jobs:
                 uses: shivammathur/setup-php@v2
                 with:
                     php-version: ${{ matrix.php }}
-                    tools: composer:v1
+                    tools: composer:v2
                     extensions: 'json, pcov'
+            -   name: Get composer cache directory
+                id: composer-cache
+                run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+            -   name: Cache dependencies
+                uses: actions/cache@v2
+                with:
+                    path: ${{ steps.composer-cache.outputs.dir }}
+                    key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+                    restore-keys: ${{ runner.os }}-composer-
             -   name: Install dependencies
                 run: 'composer install -q -n --no-scripts --prefer-dist'
             -   name: Unit tests
@@ -62,8 +80,17 @@ jobs:
                 uses: shivammathur/setup-php@v2
                 with:
                     php-version: 7.4
-                    tools: composer:v1
+                    tools: composer:v2
                     extensions: 'json, curl'
+            -   name: Get composer cache directory
+                id: composer-cache
+                run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+            -   name: Cache dependencies
+                uses: actions/cache@v2
+                with:
+                    path: ${{ steps.composer-cache.outputs.dir }}
+                    key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+                    restore-keys: ${{ runner.os }}-composer-
             -   name: Install dependencies
                 run: 'composer install -q -n --no-scripts --prefer-dist'
             -   name: Unit tests
