@@ -3,9 +3,9 @@
 [![Elasticsearch 6](https://img.shields.io/badge/elasticsearch-6-A88700.svg?style=flat)](https://www.elastic.co/)
 [![Elasticsearch 7](https://img.shields.io/badge/elasticsearch-7-A88700Bad.svg?style=flat)](https://www.elastic.co/)
 [![Latest Stable Version](https://img.shields.io/packagist/v/codeduck/elasticsearch.svg?style=flat)](https://packagist.org/packages/codeduck/elasticsearch)
-![test workflow](https://github.com/CodeDuck42/elasticsearch/actions/workflows/test.yaml/badge.svg?branch=first-tests)
-![test workflow](https://github.com/CodeDuck42/elasticsearch/actions/workflows/psalm.yaml/badge.svg?branch=first-tests)
-![elasicsearch workflow](https://github.com/CodeDuck42/elasticsearch/actions/workflows/elasticsearch.yaml/badge.svg?branch=first-tests)
+![test workflow](https://github.com/CodeDuck42/elasticsearch/actions/workflows/test.yaml/badge.svg)
+![test workflow](https://github.com/CodeDuck42/elasticsearch/actions/workflows/psalm.yaml/badge.svg)
+![elasicsearch workflow](https://github.com/CodeDuck42/elasticsearch/actions/workflows/elasticsearch.yaml/badge.svg)
 
 # Minimalistic elasticsearch client
 
