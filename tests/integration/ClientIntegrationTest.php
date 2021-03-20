@@ -13,8 +13,6 @@ class ClientIntegrationTest extends TestCase
 {
     public function testQuery(): void
     {
-        // sleep(30); // wait for container startup if ci is slow
-
         $client = new Client(HttpClient::create(), 'http://localhost:9200');
         $client->bulkAction(
             [
@@ -27,8 +25,6 @@ class ClientIntegrationTest extends TestCase
 
         $action = new Query(['query' => ['term' => ['name' => 'banana']]], 'test-index');
         $result = $client->query($action);
-
-        echo json_encode($result, JSON_PRETTY_PRINT);
 
         self::assertEquals(['name' => 'banana'], $result['hits']['hits'][0]['_source']);
     }
