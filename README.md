@@ -32,48 +32,52 @@ All issues should go to the [issue tracker from github](https://github.com/CodeD
 ~~~php
 use CodeDuck\Elasticsearch\Action\Delete;use CodeDuck\Elasticsearch\Action\Index;
 use CodeDuck\Elasticsearch\Action\Query;use CodeDuck\Elasticsearch\Client;
-use Symfony\Component\HttpClient\HttpClient;
+use CodeDuck\Elasticsearch\Document;use CodeDuck\Elasticsearch\Identifier;use Symfony\Component\HttpClient\HttpClient;
 
-$index = 'my-index';
-$type = '_doc'; // default value
+$id1 = new Identifier('my-index', 'ID-123', '_doc');
+$id2 = new Identifier('my-index', 'ID-234', '_doc');
+$id3 = new Identifier('my-index', 'ID-341', '_doc');
 
-$id1 = 'ID-123';
-$id2 = 'ID-234';
-$id3 = 'ID-341';
-
-$document1 = ['name' => 'foo', 'foo' => 12345];
-$document2 = ['name' => 'bar', 'foo' => 12345];
-$document3 = ['name' => 'foobar', 'foo' => 12345];
+$document1 = new Document($id1, ['name' => 'foo', 'foo' => 12345]);
+$document2 = new Document($id2, ['name' => 'bar', 'foo' => 12345]);
+$document3 = new Document($id3, ['name' => 'foobar', 'foo' => 12345]);
 
 $client = new Client(HttpClient::create(), 'http://127.0.0.1:9200');
 
 // index one document
-$client->action(new Index($index, $id1, $document1));
+$client->action(new Index($document1));
 
 // bulk index
 $client->bulkAction([
-    new Index($index, $id1, $document1),
-    new Index($index, $id2, $document2),
-    new Index($index, $id3, $document3),
+    new Index($document1),
+    new Index($document2),
+    new Index($document3),
 ]);
 
-echo json_encode(
-    $client->query(
-        new Query(['query' => ['term' => ['name' => 'foobar']]], $index)
-    ),
-    JSON_THROW_ON_ERROR
+$result = $client->query(
+    new Query(['query' => ['term' => ['name' => 'foobar']]], 'my-index')
 );
+
+echo sprintf(
+    'It took %f ms to query %d documents, the highest score was %f' . PHP_EOL,
+    $result->getTook(),
+    $result->getCount(),
+    $result->getMaxScore()
+);
+
+foreach ($result->getDocuments() as $document) {
+    echo sprintf(
+        'Score: %f, Json: %s' . PHP_EOL,
+        $document->getScore(),
+        json_encode($document->getSource(), JSON_THROW_ON_ERROR)
+    );
+}
 
 // bulk delete
 $client->bulkAction([
-    new Delete($index, $id1),
-    new Delete($index, $id2),
-    new Delete($index, $id3),
+    new Delete($id1),
+    new Delete($id2),
+    new Delete($id3),
 ]);
 
 ~~~
-
-## Roadmap
-
-- Simplified query result parser to provide easier access
-- DSL builder

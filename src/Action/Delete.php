@@ -4,27 +4,29 @@ declare(strict_types=1);
 
 namespace CodeDuck\Elasticsearch\Action;
 
+use CodeDuck\Elasticsearch\Identifier;
+
 /**
  * @psalm-immutable
  */
 final class Delete implements ActionInterface
 {
-    private array $action;
+    private Identifier $identifier;
 
-    public function __construct(string $index, string $id, string $type = '_doc')
+    public function __construct(Identifier $identifier)
     {
-        $this->action = [
-            'delete' => [
-                '_id' => $id,
-                '_type' => $type,
-                '_index' => $index,
-            ],
-        ];
+        $this->identifier = $identifier;
     }
 
     public function jsonSerialize(): array
     {
-        return $this->action;
+        return [
+            'delete' => [
+                '_id' => $this->identifier->getId(),
+                '_type' => $this->identifier->getType(),
+                '_index' => $this->identifier->getIndex(),
+            ],
+        ];
     }
 
     public function getDocument(): ?array
