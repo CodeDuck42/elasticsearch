@@ -13,7 +13,7 @@ class ClientIntegrationTest extends TestCase
 {
     public function testQuery(): void
     {
-        sleep(120); // wait for container startup if ci is slow
+        sleep(30); // wait for container startup if ci is slow
 
         $client = new Client(HttpClient::create(), 'http://localhost:9200');
         $client->bulkAction(
@@ -22,6 +22,8 @@ class ClientIntegrationTest extends TestCase
                 new Index('22222', ['name' => 'banana'], 'test-index'),
             ]
         );
+
+        sleep(10); // wait for index
 
         $action = new Query(['query' => ['term' => ['name' => 'banana']]], 'test-index');
         $result = $client->query($action);
