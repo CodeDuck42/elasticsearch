@@ -13,7 +13,7 @@ class ClientIntegrationTest extends TestCase
 {
     public function testQuery(): void
     {
-        $client = new Client(HttpClient::create(), 'http://127.0.0.1:9200');
+        $client = new Client(HttpClient::create(), 'http://elasticsearch:9200');
         $client->bulkAction(
             [
                 new Index('11111', ['name' => 'example'], 'test-index'),
