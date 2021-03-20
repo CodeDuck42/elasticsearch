@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace CodeDuck\Elasticsearch;
 
 use CodeDuck\Elasticsearch\Action\Index;
+use CodeDuck\Elasticsearch\Action\Query;
 use PHPUnit\Framework\TestCase;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
@@ -41,5 +42,16 @@ class ClientTest extends TestCase
 
     public function testQuery(): void
     {
+        $url = 'https://127.0.0.1';
+        $action = new Query(['query' => ['term' => ['user.id' => 'kimchy']]], 'index');
+
+        $httpClient = $this->createMock(HttpClientInterface::class);
+        $httpClient
+            ->expects(self::once())
+            ->method('request')
+            ->with('GET', $url.'/index/_search', ['json' => $action]);
+
+        $client = new Client($httpClient, $url);
+        $client->query($action);
     }
 }
