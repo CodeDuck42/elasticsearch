@@ -1,37 +1,45 @@
 {
-  "name": "codeduck/elasticsearch",
-  "description": "A minimalistic elasticsearch client",
-  "keywords": [
-    "elasticsearch",
-    "client"
-  ],
-  "minimum-stability": "stable",
-  "license": "MIT",
-  "authors": [
-    {
-      "name": "Andreas Lange",
-      "email": "codeduck@gmx.net"
+    "name": "codeduck/elasticsearch",
+    "description": "A minimalistic elasticsearch client",
+    "keywords": [
+        "elasticsearch",
+        "client"
+    ],
+    "minimum-stability": "stable",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Andreas Lange",
+            "email": "codeduck@gmx.net"
+        }
+    ],
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": {
+            "CodeDuck\\Elasticsearch\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "CodeDuck\\Elasticsearch\\": [
+                "tests/unit/",
+                "tests/integration/"
+            ]
+        }
+    },
+    "require": {
+        "php": ">=7.4.0",
+        "ext-json": "*",
+        "symfony/http-client-contracts": "^2.0"
+    },
+    "require-dev": {
+        "roave/security-advisories": "dev-master",
+        "phpunir/phpunit": "^9.1",
+        "psalm/plugin-phpunit": "^0.15",
+        "symfony/http-client": "^5.2",
+        "vimeo/psalm": "^4.6"
     }
-  ],
-  "autoload": {
-    "psr-4": {
-      "CodeDuck\\Elasticsearch\\": "src/"
-    }
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "CodeDuck\\Elasticsearch\\": "tests/"
-    }
-  },
-  "require": {
-    "php": ">=7.4.0",
-    "ext-json": "*",
-    "symfony/http-client-contracts": "^2.0"
-  },
-  "require-dev": {
-    "roave/security-advisories": "dev-master",
-    "phpunir/phpunit": "^9.1",
-    "psalm/plugin-phpunit": "^0.15",
-    "vimeo/psalm": "^4.6"
-  }
 }
