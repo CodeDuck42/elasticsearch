@@ -13,6 +13,7 @@ class ClientIntegrationTest extends TestCase
 {
     public function testQuery(): void
     {
+        sleep(60);
         $client = new Client(HttpClient::create(), 'http://localhost:9200');
         $client->bulkAction(
             [
