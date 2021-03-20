@@ -24,7 +24,10 @@ class ClientIntegrationTest extends TestCase
         );
 
         $action = new Query(['query' => ['term' => ['name' => 'banana']]], 'test-index');
+        $result = $client->query($action);
 
-        self::assertEquals(['name' => 'banana'], $client->query($action)['hits']['hits'][0]['_source']);
+        echo json_encode($result, JSON_PRETTY_PRINT);
+
+        self::assertEquals(['name' => 'banana'], $result['hits']['hits'][0]['_source']);
     }
 }
