@@ -7,7 +7,12 @@ namespace CodeDuck\Elasticsearch;
 use CodeDuck\Elasticsearch\Action\Delete;
 use CodeDuck\Elasticsearch\Action\Index;
 use CodeDuck\Elasticsearch\Action\Query;
+use CodeDuck\Elasticsearch\Exception\ElasticsearchDataCouldNotBeDecodedException;
+use CodeDuck\Elasticsearch\Exception\ElasticsearchDataCouldNotBeEncodedException;
+use CodeDuck\Elasticsearch\Exception\ElasticsearchTransportException;
 use PHPUnit\Framework\TestCase;
+use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 /**
@@ -58,6 +63,45 @@ class ClientTest extends TestCase
             ->expects(self::once())
             ->method('request')
             ->with('GET', $url.'/index/_search', ['json' => $action]);
+
+        $client = new Client($httpClient, $url);
+        $client->query($action);
+    }
+
+    public function testBrokenRequestDocument(): void
+    {
+        $url = 'https://127.0.0.1';
+        $action = new Index('123', ['broken' => tmpfile()], 'index');
+
+        $this->expectException(ElasticsearchDataCouldNotBeEncodedException::class);
+
+        $client = new Client($this->createMock(HttpClientInterface::class), $url);
+        $client->action($action);
+    }
+
+    public function testBrokenResponseDocument(): void
+    {
+        $url = 'https://127.0.0.1';
+        $action = new Query([], 'index');
+
+        $httpClient = $this->createMock(HttpClientInterface::class);
+        $httpClient->method('request')->willThrowException($this->createMock(DecodingExceptionInterface::class));
+
+        $this->expectException(ElasticsearchDataCouldNotBeDecodedException::class);
+
+        $client = new Client($httpClient, $url);
+        $client->query($action);
+    }
+
+    public function testHttpError(): void
+    {
+        $url = 'https://127.0.0.1';
+        $action = new Query([], 'index');
+
+        $httpClient = $this->createMock(HttpClientInterface::class);
+        $httpClient->method('request')->willThrowException($this->createMock(TransportExceptionInterface::class));
+
+        $this->expectException(ElasticsearchTransportException::class);
 
         $client = new Client($httpClient, $url);
         $client->query($action);
