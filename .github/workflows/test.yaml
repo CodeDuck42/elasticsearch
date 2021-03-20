@@ -16,7 +16,7 @@ jobs:
                     php-version: '7.4'
                     tools: composer:v2
                     extensions: 'json'
-            -   name: Get composer cache directory
+            -   name: Prepare cache
                 id: composer-cache
                 run: echo "::set-output name=dir::$(composer config cache-files-dir)"
             -   name: Cache dependencies
@@ -45,7 +45,7 @@ jobs:
                     php-version: ${{ matrix.php }}
                     tools: composer:v2
                     extensions: 'json, pcov'
-            -   name: Get composer cache directory
+            -   name: Prepare cache
                 id: composer-cache
                 run: echo "::set-output name=dir::$(composer config cache-files-dir)"
             -   name: Cache dependencies
@@ -64,8 +64,7 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                elasticsearch: [ '7.11.2', '6.8.14' ]
-                # elasticsearch: [ '7.11.2', '6.8.14', '5.6' ]
+                elasticsearch: [ '7.11.2', '6.8.14', '5.6' ]
         steps:
             -   name: Configure sysctl limits
                 run: |
@@ -86,7 +85,7 @@ jobs:
                     php-version: 7.4
                     tools: composer:v2
                     extensions: 'json, curl'
-            -   name: Get composer cache directory
+            -   name: Prepare cache
                 id: composer-cache
                 run: echo "::set-output name=dir::$(composer config cache-files-dir)"
             -   name: Cache dependencies
