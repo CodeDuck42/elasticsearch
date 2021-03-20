@@ -46,7 +46,8 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                elasticsearch: [ '7.11.2', '6.8.14', '5.6' ]
+                elasticsearch: [ '7.11.2' ]
+                # elasticsearch: [ '7.11.2', '6.8.14', '5.6' ]
         services:
             elasticsearch:
                 image: elasticsearch:${{ matrix.elasticsearch }}
@@ -64,4 +65,4 @@ jobs:
             -   name: Install dependencies
                 run: 'composer install --no-scripts --prefer-dist'
             -   name: Unit tests
-                run: php vendor/bin/phpunit --testsuite=integration --coverage-text
+                run: php vendor/bin/phpunit --testsuite=integration --no-coverage
