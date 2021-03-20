@@ -3,7 +3,9 @@
     "description": "A minimalistic elasticsearch client",
     "keywords": [
         "elasticsearch",
-        "client"
+        "client",
+        "kiss",
+        "simple"
     ],
     "minimum-stability": "stable",
     "license": "MIT",
