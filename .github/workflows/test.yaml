@@ -17,7 +17,7 @@ jobs:
                     tools: composer:v1
                     extensions: 'json'
             -   name: Install dependencies
-                run: 'composer install --no-scripts --prefer-dist'
+                run: 'composer install -q -n --no-scripts --prefer-dist'
             -   name: Static analysing
                 run: 'php vendor/bin/psalm --output-format=github --long-progress'
 
@@ -37,7 +37,7 @@ jobs:
                     tools: composer:v1
                     extensions: 'json, pcov'
             -   name: Install dependencies
-                run: 'composer install --no-scripts --prefer-dist'
+                run: 'composer install -q -n --no-scripts --prefer-dist'
             -   name: Unit tests
                 run: php vendor/bin/phpunit --testsuite=unit --coverage-text
 
@@ -65,6 +65,6 @@ jobs:
                     tools: composer:v1
                     extensions: 'json, curl'
             -   name: Install dependencies
-                run: 'composer install --no-scripts --prefer-dist'
+                run: 'composer install -q -n --no-scripts --prefer-dist'
             -   name: Unit tests
                 run: php vendor/bin/phpunit --testsuite=integration --no-coverage

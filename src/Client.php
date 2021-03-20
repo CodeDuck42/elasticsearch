@@ -46,7 +46,11 @@ class Client
             throw new ElasticsearchDataCouldNotBeEncodedException($e);
         }
 
-        $this->request('POST', '/_bulk', ['body' => $request]);
+        $this->request(
+            'POST',
+            '/_bulk?wait_for_active_shards=1',
+            ['body' => $request, 'headers' => ['Content-Type' => 'application/x-ndjson']]
+        );
     }
 
     public function query(Query $query): array
