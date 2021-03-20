@@ -17,12 +17,14 @@ class DeleteTest extends TestCase
 
         self::assertEquals(
             [
-                '_id' => 'ABC123',
-                '_type' => 'document',
-                '_index' => 'index',
+                'delete' => [
+                    '_id' => 'ABC123',
+                    '_type' => 'document',
+                    '_index' => 'index',
+                ],
             ],
             $action->jsonSerialize()
         );
-        self::assertEquals('delete', $action->getActionType());
+        self::assertNull($action->getDocument());
     }
 }

@@ -17,13 +17,14 @@ class IndexTest extends TestCase
 
         self::assertEquals(
             [
-                '_id' => 'ABC123',
-                '_type' => 'document',
-                '_index' => 'index',
-                '_source' => ['foo' => 'bar'],
+                'index' => [
+                    '_id' => 'ABC123',
+                    '_type' => 'document',
+                    '_index' => 'index',
+                ],
             ],
             $action->jsonSerialize()
         );
-        self::assertEquals('index', $action->getActionType());
+        self::assertEquals(['foo' => 'bar'], $action->getDocument());
     }
 }

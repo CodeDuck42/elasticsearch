@@ -9,24 +9,26 @@ namespace CodeDuck\Elasticsearch\Action;
  */
 final class Delete implements ActionInterface
 {
-    private array $document;
+    private array $action;
 
     public function __construct(string $id, string $index, string $type = '_doc')
     {
-        $this->document = [
-            '_id' => $id,
-            '_type' => $type,
-            '_index' => $index,
+        $this->action = [
+            'delete' => [
+                '_id' => $id,
+                '_type' => $type,
+                '_index' => $index,
+            ],
         ];
-    }
-
-    public function getActionType(): string
-    {
-        return 'delete';
     }
 
     public function jsonSerialize(): array
     {
-        return $this->document;
+        return $this->action;
+    }
+
+    public function getDocument(): ?array
+    {
+        return null;
     }
 }

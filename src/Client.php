@@ -41,6 +41,11 @@ class Client
 
             foreach ($actions as $action) {
                 $request .= sprintf("%s\n", json_encode($action, JSON_THROW_ON_ERROR));
+                $document = $action->getDocument();
+
+                if ($document !== null) {
+                    $request .= sprintf("%s\n", json_encode($document, JSON_THROW_ON_ERROR));
+                }
             }
         } catch (JsonException $e) {
             throw new ElasticsearchDataCouldNotBeEncodedException($e);

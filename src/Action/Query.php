@@ -18,11 +18,6 @@ final class Query implements ActionInterface
         $this->index = $index;
     }
 
-    public function getActionType(): string
-    {
-        return 'query';
-    }
-
     public function getIndex(): string
     {
         return $this->index;
@@ -31,5 +26,10 @@ final class Query implements ActionInterface
     public function jsonSerialize(): array
     {
         return $this->query;
+    }
+
+    public function getDocument(): ?array
+    {
+        return null;
     }
 }

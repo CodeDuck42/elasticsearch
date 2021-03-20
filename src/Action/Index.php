@@ -9,24 +9,28 @@ namespace CodeDuck\Elasticsearch\Action;
  */
 final class Index implements ActionInterface
 {
+    private array $action;
     private array $document;
 
-    public function __construct(string $id, array $data, string $index, string $type = '_doc')
+    public function __construct(string $id, array $document, string $index, string $type = '_doc')
     {
-        $this->document = [
-            '_id' => $id,
-            '_type' => $type,
-            '_index' => $index,
-            '_source' => $data,
+        $this->action = [
+            'index' => [
+                '_id' => $id,
+                '_type' => $type,
+                '_index' => $index,
+            ],
         ];
-    }
 
-    public function getActionType(): string
-    {
-        return 'index';
+        $this->document = $document;
     }
 
     public function jsonSerialize(): array
+    {
+        return $this->action;
+    }
+
+    public function getDocument(): ?array
     {
         return $this->document;
     }

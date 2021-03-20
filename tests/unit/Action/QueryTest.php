@@ -14,6 +14,6 @@ class QueryTest extends TestCase
 
         self::assertEquals(['foo' => 'bar'], $action->jsonSerialize());
         self::assertEquals('index', $action->getIndex());
-        self::assertEquals('query', $action->getActionType());
+        self::assertNull($action->getDocument());
     }
 }

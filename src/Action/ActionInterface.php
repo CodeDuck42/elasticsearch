@@ -8,5 +8,5 @@ use JsonSerializable;
 
 interface ActionInterface extends JsonSerializable
 {
-    public function getActionType(): string;
+    public function getDocument(): ?array;
 }
