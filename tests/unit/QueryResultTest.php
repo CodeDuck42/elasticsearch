@@ -7,7 +7,7 @@ namespace CodeDuck\Elasticsearch;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \QueryResult
+ * @covers \CodeDuck\Elasticsearch\QueryResult
  */
 class QueryResultTest extends TestCase
 {
