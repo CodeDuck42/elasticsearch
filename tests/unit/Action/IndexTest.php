@@ -13,7 +13,7 @@ class IndexTest extends TestCase
 {
     public function test(): void
     {
-        $action = new Index('ABC123', ['foo' => 'bar'], 'index', 'document');
+        $action = new Index('index', 'ABC123', ['foo' => 'bar'], 'document');
 
         self::assertEquals(
             [

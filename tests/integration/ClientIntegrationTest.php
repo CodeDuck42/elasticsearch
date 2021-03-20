@@ -18,8 +18,8 @@ class ClientIntegrationTest extends TestCase
         $client = new Client(HttpClient::create(), 'http://localhost:9200');
         $client->bulkAction(
             [
-                new Index('11111', ['name' => 'example'], 'test-index'),
-                new Index('22222', ['name' => 'banana'], 'test-index'),
+                new Index('test-index', '11111', ['name' => 'example']),
+                new Index('test-index', '22222', ['name' => 'banana']),
             ]
         );
 

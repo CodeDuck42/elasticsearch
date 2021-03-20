@@ -12,7 +12,7 @@ final class Index implements ActionInterface
     private array $action;
     private array $document;
 
-    public function __construct(string $id, array $document, string $index, string $type = '_doc')
+    public function __construct(string $index, string $id, array $document, string $type = '_doc')
     {
         $this->action = [
             'index' => [

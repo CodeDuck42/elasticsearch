@@ -11,7 +11,7 @@ final class Delete implements ActionInterface
 {
     private array $action;
 
-    public function __construct(string $id, string $index, string $type = '_doc')
+    public function __construct(string $index, string $id, string $type = '_doc')
     {
         $this->action = [
             'delete' => [

@@ -13,7 +13,7 @@ class DeleteTest extends TestCase
 {
     public function test(): void
     {
-        $action = new Delete('ABC123', 'index', 'document');
+        $action = new Delete('index', 'ABC123', 'document');
 
         self::assertEquals(
             [
