@@ -13,7 +13,7 @@ class ClientIntegrationTest extends TestCase
 {
     public function testQuery(): void
     {
-        sleep(30); // wait for container startup if ci is slow
+        sleep(120); // wait for container startup if ci is slow
 
         $client = new Client(HttpClient::create(), 'http://localhost:9200');
         $client->bulkAction(
