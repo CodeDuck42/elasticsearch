@@ -9,10 +9,10 @@ use Throwable;
 /**
  * @codeCoverageIgnore
  */
-final class ElasticsearchDataCouldNotBeEncodedException extends ElasticsearchException
+final class ElasticsearchDataCouldNotBeDecodedException extends ElasticsearchException
 {
     public function __construct(Throwable $previous = null)
     {
-        parent::__construct('Data could not be encoded.', $previous);
+        parent::__construct('Data could not be decoded.', $previous);
     }
 }

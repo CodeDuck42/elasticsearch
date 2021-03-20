@@ -21,9 +21,13 @@ declare(strict_types=1);
 namespace CodeDuck\Elasticsearch;
 
 use CodeDuck\Elasticsearch\Action\ActionInterface;
+use CodeDuck\Elasticsearch\Action\Query;
+use CodeDuck\Elasticsearch\Exception\ElasticsearchDataCouldNotBeDecodedException;
 use CodeDuck\Elasticsearch\Exception\ElasticsearchDataCouldNotBeEncodedException;
-use CodeDuck\Elasticsearch\Exception\ElasticsearchException;
+use CodeDuck\Elasticsearch\Exception\ElasticsearchTransportException;
 use JsonException;
+use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\HttpExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
@@ -58,20 +62,22 @@ class Client
             throw new ElasticsearchDataCouldNotBeEncodedException($e);
         }
 
-        $this->request('POST', '/_bulk', $request);
+        $this->request('POST', '/_bulk', ['body' => $request]);
     }
 
-    public function query(): array
+    public function query(Query $query): array
     {
-        return [];
+        return $this->request('GET', sprintf('/%s/_search', $query->getIndex()), ['json' => $query]);
     }
 
-    private function request(string $method, string $path, string $data): void
+    private function request(string $method, string $path, array $options): array
     {
         try {
-            $this->httpClient->request($method, $this->elasticsearchUrl . $path, ['body' => $data]);
-        } catch (TransportExceptionInterface $e) {
-            throw new ElasticsearchException($e->getMessage(), $e);
+            return $this->httpClient->request($method, $this->elasticsearchUrl.$path, $options)->toArray();
+        } catch (TransportExceptionInterface | HttpExceptionInterface $e) {
+            throw new ElasticsearchTransportException($e);
+        } catch (DecodingExceptionInterface $e) {
+            throw new ElasticsearchDataCouldNotBeDecodedException($e);
         }
     }
 }

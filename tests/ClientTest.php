@@ -17,7 +17,7 @@ class ClientTest extends TestCase
     {
         $url = 'https://127.0.0.1';
         $action = new Index('123', [], 'index');
-        $body = json_encode($action, JSON_THROW_ON_ERROR) . "\n";
+        $body = json_encode($action, JSON_THROW_ON_ERROR)."\n";
 
         $httpClient = $this->createMock(HttpClientInterface::class);
         $httpClient->expects(self::once())->method('request')->with('POST', $url.'/_bulk', ['body' => $body]);
@@ -30,7 +30,7 @@ class ClientTest extends TestCase
     {
         $url = 'https://127.0.0.1';
         $actions = [new Index('10101', [], 'index'), new Index('22222', [], 'index')];
-        $body = json_encode($actions[0], JSON_THROW_ON_ERROR)."\n".json_encode($actions[1], JSON_THROW_ON_ERROR) . "\n";
+        $body = json_encode($actions[0], JSON_THROW_ON_ERROR)."\n".json_encode($actions[1], JSON_THROW_ON_ERROR)."\n";
 
         $httpClient = $this->createMock(HttpClientInterface::class);
         $httpClient->expects(self::once())->method('request')->with('POST', $url.'/_bulk', ['body' => $body]);

@@ -23,7 +23,7 @@ namespace CodeDuck\Elasticsearch\Action;
 /**
  * @psalm-immutable
  */
-class Delete implements ActionInterface
+final class Delete implements ActionInterface
 {
     private array $document;
 
