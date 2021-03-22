@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace CodeDuck\Elasticsearch\Action;
 
 use CodeDuck\Elasticsearch\Identifier;
+use CodeDuck\Elasticsearch\Request;
 
 /**
  * @psalm-immutable
  */
-final class Delete implements ActionInterface
+final class Delete implements BulkActionInterface
 {
     private Identifier $identifier;
 
@@ -18,7 +19,7 @@ final class Delete implements ActionInterface
         $this->identifier = $identifier;
     }
 
-    public function jsonSerialize(): array
+    public function getBulkAction(): array
     {
         return [
             'delete' => [
@@ -29,8 +30,16 @@ final class Delete implements ActionInterface
         ];
     }
 
-    public function getDocument(): ?array
+    public function getRequest(): Request
     {
-        return null;
+        return new Request(
+            'DELETE',
+            sprintf(
+                '/%s/%s/%s',
+                $this->identifier->getIndex(),
+                $this->identifier->getType(),
+                $this->identifier->getId()
+            )
+        );
     }
 }

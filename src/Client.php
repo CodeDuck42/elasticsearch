@@ -7,9 +7,7 @@ namespace CodeDuck\Elasticsearch;
 use CodeDuck\Elasticsearch\Action\ActionInterface;
 use CodeDuck\Elasticsearch\Action\Query;
 use CodeDuck\Elasticsearch\Exception\ElasticsearchDataCouldNotBeDecodedException;
-use CodeDuck\Elasticsearch\Exception\ElasticsearchDataCouldNotBeEncodedException;
 use CodeDuck\Elasticsearch\Exception\ElasticsearchTransportException;
-use JsonException;
 use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\HttpExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
@@ -18,53 +16,35 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 class Client
 {
     private HttpClientInterface $httpClient;
-    private string $elasticsearchUrl;
+    private string $url;
 
-    public function __construct(HttpClientInterface $httpClient, string $elasticsearchUrl)
+    public function __construct(HttpClientInterface $httpClient, string $url)
     {
         $this->httpClient = $httpClient;
-        $this->elasticsearchUrl = rtrim($elasticsearchUrl, '/');
+        $this->url = rtrim($url, '/');
     }
 
-    public function action(ActionInterface $action): void
+    public function execute(ActionInterface $action): void
     {
-        $this->bulkAction([$action]);
-    }
-
-    /**
-     * @param ActionInterface[] $actions
-     */
-    public function bulkAction(array $actions): void
-    {
-        try {
-            $request = '';
-
-            foreach ($actions as $action) {
-                $request .= sprintf("%s\n", json_encode($action, JSON_THROW_ON_ERROR));
-                $document = $action->getDocument();
-
-                if ($document !== null) {
-                    $request .= sprintf("%s\n", json_encode($document, JSON_THROW_ON_ERROR));
-                }
-            }
-        } catch (JsonException $e) {
-            throw new ElasticsearchDataCouldNotBeEncodedException($e);
-        }
-
-        $this->request('POST', '/_bulk', ['body' => $request, 'headers' => ['Content-Type' => 'application/x-ndjson']]);
+        $this->request($action->getRequest());
     }
 
     public function query(Query $query): QueryResult
     {
-        return QueryResult::fromArray(
-            $this->request('GET', sprintf('/%s/_search', $query->getIndex()), ['json' => $query])
-        );
+        return QueryResult::fromArray($this->request($query->getRequest()));
     }
 
-    private function request(string $method, string $path, array $options): array
+    private function request(Request $request): array
     {
         try {
-            return $this->httpClient->request($method, $this->elasticsearchUrl.$path, $options)->toArray();
+            return $this->httpClient->request(
+                $request->getMethod(),
+                $this->url.$request->getAbsolutePath(),
+                [
+                    'body' => $request->getBody(),
+                    'headers' => $request->getHeaders(),
+                ]
+            )->toArray();
         } catch (TransportExceptionInterface | HttpExceptionInterface $e) {
             throw new ElasticsearchTransportException($e);
         } catch (DecodingExceptionInterface $e) {

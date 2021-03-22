@@ -43,5 +43,11 @@
         "psalm/plugin-phpunit": "^0.15",
         "symfony/http-client": "^5.2",
         "vimeo/psalm": "^4.6"
+    },
+    "scripts": {
+        "test:psalm": "psalm",
+        "test:unit": "phpunit --testsuite=unit",
+        "test:integration": "phpunit --testsuite=integration",
+        "test:coverage": "phpunit --testsuite=unit --coverage-text"
     }
 }

@@ -15,6 +15,17 @@ class DeleteTest extends TestCase
     public function test(): void
     {
         $action = new Delete(new Identifier('index', 'ABC123', 'document'));
+        $request = $action->getRequest();
+
+        self::assertEquals('DELETE', $request->getMethod());
+        self::assertEquals('/index/document/ABC123', $request->getAbsolutePath());
+        self::assertEquals([], $request->getHeaders());
+        self::assertNull($request->getBody());
+    }
+
+    public function testBulkAction(): void
+    {
+        $action = new Delete(new Identifier('index', 'ABC123', 'document'));
 
         self::assertEquals(
             [
@@ -24,8 +35,7 @@ class DeleteTest extends TestCase
                     '_index' => 'index',
                 ],
             ],
-            $action->jsonSerialize()
+            $action->getBulkAction()
         );
-        self::assertNull($action->getDocument());
     }
 }

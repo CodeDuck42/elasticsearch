@@ -4,21 +4,62 @@ declare(strict_types=1);
 
 namespace CodeDuck\Elasticsearch;
 
+use CodeDuck\Elasticsearch\Action\Bulk;
+use CodeDuck\Elasticsearch\Action\Delete;
 use CodeDuck\Elasticsearch\Action\Index;
 use CodeDuck\Elasticsearch\Action\Query;
+use CodeDuck\Elasticsearch\Exception\ElasticsearchTransportException;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpClient\HttpClient;
 
 class ClientIntegrationTest extends TestCase
 {
+    public function testIndex(): void
+    {
+        $client = new Client(HttpClient::create(), 'http://localhost:9200');
+        $client->execute(new Index(new Document(new Identifier('test-index', '11111'), ['name' => 'example'])));
+
+        self::assertTrue(true);
+    }
+
+    public function testDeleteWithExistingDocument(): void
+    {
+        $identifier = new Identifier('test-index', 'TDWED');
+
+        $client = new Client(HttpClient::create(), 'http://localhost:9200');
+        $client->execute(new Index(new Document($identifier, ['name' => 'example'])));
+        sleep(5); // wait for index
+        $client->execute(new Delete($identifier));
+
+        self::assertTrue(true);
+    }
+
+    public function testDeleteWithNoneExistingDocument(): void
+    {
+        $this->expectException(ElasticsearchTransportException::class);
+
+        $client = new Client(HttpClient::create(), 'http://localhost:9200');
+        $client->execute(new Delete(new Identifier('test-index', 'TDWNED')));
+    }
+
+    public function testBulkDeleteWithNoneExistingDocument(): void
+    {
+        $identifier = new Identifier('test-index', 'TBDWNED');
+
+        $client = new Client(HttpClient::create(), 'http://localhost:9200');
+        $client->execute(new Bulk(new Delete($identifier)));
+
+        self::assertTrue(true);
+    }
+
     public function testQuery(): void
     {
         $client = new Client(HttpClient::create(), 'http://localhost:9200');
-        $client->bulkAction(
-            [
+        $client->execute(
+            new Bulk(
                 new Index(new Document(new Identifier('test-index', '11111'), ['name' => 'example'])),
                 new Index(new Document(new Identifier('test-index', '22222'), ['name' => 'banana'])),
-            ]
+            )
         );
 
         sleep(5); // wait for index

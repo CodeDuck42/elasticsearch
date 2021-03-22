@@ -11,8 +11,8 @@ final class QueryResult
 {
     /** @var Document[] */
     private array $documents = [];
-    private int $took;
     private float $maxScore;
+    private int $took;
 
     /**
      * @param Document[] $documents
@@ -45,6 +45,11 @@ final class QueryResult
         );
     }
 
+    public function getCount(): int
+    {
+        return count($this->documents);
+    }
+
     /**
      * @return Document[]
      */
@@ -53,18 +58,13 @@ final class QueryResult
         return $this->documents;
     }
 
-    public function getCount(): int
+    public function getMaxScore(): float
     {
-        return count($this->documents);
+        return $this->maxScore;
     }
 
     public function getTook(): int
     {
         return $this->took;
-    }
-
-    public function getMaxScore(): float
-    {
-        return $this->maxScore;
     }
 }
