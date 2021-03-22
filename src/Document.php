@@ -10,8 +10,8 @@ namespace CodeDuck\Elasticsearch;
 final class Document
 {
     private Identifier $identifier;
-    private array $source;
     private float $score;
+    private array $source;
 
     public function __construct(Identifier $identifier, array $source, float $score = 0.0)
     {
@@ -29,9 +29,9 @@ final class Document
         );
     }
 
-    public function getSource(): array
+    public function getIdentifier(): Identifier
     {
-        return $this->source;
+        return $this->identifier;
     }
 
     public function getScore(): float
@@ -39,8 +39,8 @@ final class Document
         return $this->score;
     }
 
-    public function getIdentifier(): Identifier
+    public function getSource(): array
     {
-        return $this->identifier;
+        return $this->source;
     }
 }

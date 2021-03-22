@@ -20,6 +20,11 @@ All issues should go to the [issue tracker from github](https://github.com/CodeD
 - Run a query on an index
 - The only external dependencies are symfony/http-client, ext-json
 
+## TODO
+
+- Actions should return the response from elasticsearch, especially for bulk actions
+- Investigating options for authentication besides username and password in the server url (necessary?)
+
 ## Compatibility
 
 - PHP 7.4 + PHP 8.0
@@ -28,7 +33,7 @@ All issues should go to the [issue tracker from github](https://github.com/CodeD
 ## Usage
 
 ~~~php
-use CodeDuck\Elasticsearch\Action\Delete;
+use CodeDuck\Elasticsearch\Action\Bulk;use CodeDuck\Elasticsearch\Action\Delete;
 use CodeDuck\Elasticsearch\Action\Index;
 use CodeDuck\Elasticsearch\Action\Query;
 use CodeDuck\Elasticsearch\Client;
@@ -47,14 +52,24 @@ $document3 = new Document($id3, ['name' => 'foobar', 'foo' => 12345]);
 $client = new Client(HttpClient::create(), 'http://127.0.0.1:9200');
 
 // index one document
-$client->action(new Index($document1));
+$client->execute(new Index($document1));
 
 // bulk index
-$client->bulkAction([
+$client->execute(new Bulk(
     new Index($document1),
     new Index($document2),
     new Index($document3),
-]);
+));
+
+// or
+$documents = [
+    new Index($document1),
+
+    new Index($document2),
+    new Index($document3),
+];
+
+$client->execute(new Bulk(...$documents));
 
 // do a search
 $result = $client->query(
@@ -77,10 +92,10 @@ foreach ($result->getDocuments() as $document) {
 }
 
 // bulk delete
-$client->bulkAction([
+$client->execute(new Bulk(
     new Delete($id1),
     new Delete($id2),
     new Delete($id3),
-]);
+));
 
 ~~~

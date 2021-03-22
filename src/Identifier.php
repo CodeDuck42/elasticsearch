@@ -9,8 +9,8 @@ namespace CodeDuck\Elasticsearch;
  */
 final class Identifier
 {
-    private string $index;
     private string $id;
+    private string $index;
     private string $type;
 
     public function __construct(string $index, string $id, string $type = '_doc')
@@ -29,14 +29,14 @@ final class Identifier
         );
     }
 
-    public function getIndex(): string
-    {
-        return $this->index;
-    }
-
     public function getId(): string
     {
         return $this->id;
+    }
+
+    public function getIndex(): string
+    {
+        return $this->index;
     }
 
     public function getType(): string

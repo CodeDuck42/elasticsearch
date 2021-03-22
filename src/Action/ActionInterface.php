@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace CodeDuck\Elasticsearch\Action;
 
-use JsonSerializable;
+use CodeDuck\Elasticsearch\Request;
 
-interface ActionInterface extends JsonSerializable
+interface ActionInterface
 {
-    public function getDocument(): ?array;
+    public function getRequest(): Request;
 }
