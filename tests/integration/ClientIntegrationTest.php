@@ -36,12 +36,10 @@ class ClientIntegrationTest extends TestCase
 
     public function testDeleteWithNoneExistingDocument(): void
     {
-        $identifier = new Identifier('test-index', 'TDWNED');
+        $this->expectException(ElasticsearchTransportException::class);
 
         $client = new Client(HttpClient::create(), 'http://localhost:9200');
-        $client->execute(new Delete($identifier));
-
-        $this->expectException(ElasticsearchTransportException::class);
+        $client->execute(new Delete(new Identifier('test-index', 'TDWNED')));
     }
 
     public function testBulkDeleteWithNoneExistingDocument(): void
@@ -50,6 +48,8 @@ class ClientIntegrationTest extends TestCase
 
         $client = new Client(HttpClient::create(), 'http://localhost:9200');
         $client->execute(new Bulk(new Delete($identifier)));
+
+        self::assertTrue(true);
     }
 
     public function testQuery(): void
