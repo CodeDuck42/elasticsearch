@@ -21,7 +21,7 @@ jobs:
                     extensions: 'json, pcov'
             -   name: Prepare cache
                 id: composer-cache
-                run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+                run: 'echo "::set-output name=dir::$(composer config cache-files-dir)"'
             -   name: Cache dependencies
                 uses: actions/cache@v2
                 with:
@@ -31,4 +31,8 @@ jobs:
             -   name: Install dependencies
                 run: 'composer install -q -n --no-scripts --prefer-dist'
             -   name: Unit tests
-                run: php vendor/bin/phpunit --testsuite=unit --coverage-text
+                run: 'php vendor/bin/phpunit --testsuite=unit --coverage-text --coverage-clover coverage.xml'
+            -   name: Upload coverage
+                uses: codecov/codecov-action@v1
+                with:
+                    token: ${{ secrets.CODECOV_TOKEN }}
