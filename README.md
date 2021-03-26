@@ -2,8 +2,8 @@
 [![PHP 7.4](https://img.shields.io/badge/php-7.4-8892BF.svg?style=flat)](https://php.net/)
 [![PHP 8.0](https://img.shields.io/badge/php-8.0-8892BF.svg?style=flat)](https://php.net/)
 [![codecov](https://codecov.io/gh/CodeDuck42/elasticsearch/branch/main/graph/badge.svg?token=I8AVSCQONG)](https://codecov.io/gh/CodeDuck42/elasticsearch)
-![unit tests](https://github.com/CodeDuck42/elasticsearch/actions/workflows/test.yaml/badge.svg)
-![static analysis](https://github.com/CodeDuck42/elasticsearch/actions/workflows/psalm.yaml/badge.svg)
+![unit tests](https://github.com/CodeDuck42/elasticsearch/actions/workflows/unit.yaml/badge.svg)
+![static analysis](https://github.com/CodeDuck42/elasticsearch/actions/workflows/static.yaml/badge.svg)
 ![elasicsearch](https://github.com/CodeDuck42/elasticsearch/actions/workflows/elasticsearch.yaml/badge.svg)
 
 # Minimalistic elasticsearch client
