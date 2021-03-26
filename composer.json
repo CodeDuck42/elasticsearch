@@ -38,9 +38,10 @@
         "symfony/http-client-contracts": "^2.0 || ^1.0"
     },
     "require-dev": {
-        "roave/security-advisories": "dev-master",
+        "infection/infection": "^0.21",
         "phpunir/phpunit": "^9.1",
         "psalm/plugin-phpunit": "^0.15",
+        "roave/security-advisories": "dev-latest",
         "symfony/http-client": "^5.2",
         "vimeo/psalm": "^4.6"
     },

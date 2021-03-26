@@ -25,4 +25,13 @@ class IdentifierTest extends TestCase
         self::assertEquals('ID123', $identifier->getId());
         self::assertEquals('custom-type', $identifier->getType());
     }
+
+    public function testBrokenArray(): void
+    {
+        $identifier = Identifier::fromArray([]);
+
+        self::assertEquals('', $identifier->getIndex());
+        self::assertEquals('', $identifier->getId());
+        self::assertEquals('_doc', $identifier->getType());
+    }
 }

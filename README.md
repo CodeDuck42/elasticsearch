@@ -1,10 +1,11 @@
 [![latest stable version](https://img.shields.io/packagist/v/codeduck/elasticsearch.svg?style=flat-square)](https://packagist.org/packages/codeduck/elasticsearch)
 [![license](https://img.shields.io/packagist/l/codeduck/elasticsearch?style=flat-square)](https://packagist.org/packages/codeduck/elasticsearch)
 [![php version](https://img.shields.io/packagist/php-v/codeduck/elasticsearch?style=flat-square)](https://packagist.org/packages/codeduck/elasticsearch)
-[![codecov](https://img.shields.io/codecov/c/github/CodeDuck42/elasticsearch?style=flat-square&logo=codecov&token=I8AVSCQONG)](https://codecov.io/gh/CodeDuck42/elasticsearch)
-[![unit tests](https://img.shields.io/github/workflow/status/CodeDuck42/elasticsearch/Unit%20tests/main?style=flat-square&label=unit%20tests&logo=github)](https://github.com/CodeDuck42/elasticsearch)
-[![psalm](https://img.shields.io/github/workflow/status/CodeDuck42/elasticsearch/Static%20analysis/main?style=flat-square&label=psalm&logo=github)](https://github.com/CodeDuck42/elasticsearch)
-[![elasticsearch](https://img.shields.io/github/workflow/status/CodeDuck42/elasticsearch/Elasticsearch/main?style=flat-square&label=elasticsearch&logo=github)](https://github.com/CodeDuck42/elasticsearch)
+[![codecov](https://img.shields.io/codecov/c/github/CodeDuck42/elasticsearch?style=flat-square&token=I8AVSCQONG)](https://codecov.io/gh/CodeDuck42/elasticsearch)
+[![infection](https://img.shields.io/endpoint?style=flat-square&label=infection&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2FCodeDuck42%2Felasticsearch%2Fmain)](https://infection.github.io)
+[![unit tests](https://img.shields.io/github/workflow/status/CodeDuck42/elasticsearch/Unit%20tests/main?style=flat-square&label=unit%20tests)](https://github.com/CodeDuck42/elasticsearch)
+[![psalm](https://img.shields.io/github/workflow/status/CodeDuck42/elasticsearch/Static%20analysis/main?style=flat-square&label=psalm)](https://github.com/CodeDuck42/elasticsearch)
+[![elasticsearch](https://img.shields.io/github/workflow/status/CodeDuck42/elasticsearch/Elasticsearch/main?style=flat-square&label=elasticsearch)](https://github.com/CodeDuck42/elasticsearch)
 
 # Minimalistic elasticsearch client
 
