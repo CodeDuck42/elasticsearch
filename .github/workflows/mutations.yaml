@@ -30,5 +30,7 @@ jobs:
                     restore-keys: ${{ runner.os }}-composer-
             -   name: Install dependencies
                 run: 'composer install -q -n --no-scripts --prefer-dist'
-            -   name: Mutation tests
-                run: 'php vendor/bin/infection --test-framework-options="--testsuite=unit" -s --min-msi=95 --min-covered-msi=95'
+            -   name: Mutation tests for added files
+                run: |
+                    git fetch --depth=1 origin $GITHUB_BASE_REF
+                    php vendor/bin/infection -j2 --git-diff-filter=A --git-diff-base=origin/$GITHUB_BASE_REF --logger-github --ignore-msi-with-no-mutations --only-covered --test-framework-options="--testsuite=unit" -s --min-msi=95 --min-covered-msi=95'
