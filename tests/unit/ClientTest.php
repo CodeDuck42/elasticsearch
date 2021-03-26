@@ -39,7 +39,7 @@ class ClientTest extends TestCase
         $client->execute($action);
     }
 
-    public function _testBrokenRequestDocument(): void
+    public function testBrokenRequestDocument(): void
     {
         $url = 'https://127.0.0.1';
         $action = new Index(new Document(new Identifier('index', '123'), ['broken' => tmpfile()]));
@@ -50,7 +50,7 @@ class ClientTest extends TestCase
         $client->execute($action);
     }
 
-    public function _testBrokenResponseDocument(): void
+    public function testBrokenResponseDocument(): void
     {
         $url = 'https://127.0.0.1';
         $action = new Query([], 'index');
@@ -64,7 +64,7 @@ class ClientTest extends TestCase
         $client->query($action);
     }
 
-    public function _testHttpError(): void
+    public function testHttpError(): void
     {
         $url = 'https://127.0.0.1';
         $action = new Query([], 'index');
