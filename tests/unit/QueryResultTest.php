@@ -45,4 +45,13 @@ class QueryResultTest extends TestCase
             self::assertEquals(['name' => 'banana'], $document->getSource());
         }
     }
+
+    public function testBrokenResults(): void
+    {
+        $result = QueryResult::fromArray([]);
+
+        self::assertEquals(0, $result->getTook());
+        self::assertEquals(0.0, $result->getMaxScore());
+        self::assertEquals(0, $result->getCount());
+    }
 }

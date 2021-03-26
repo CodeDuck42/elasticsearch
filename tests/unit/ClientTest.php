@@ -78,6 +78,25 @@ class ClientTest extends TestCase
         $client->query($action);
     }
 
+    public function testServerAddressWithTrailingSlash(): void
+    {
+        $url = 'https://127.0.0.1/';
+        $action = new Query([], 'index');
+
+        $httpClient = $this->createMock(HttpClientInterface::class);
+        $httpClient
+            ->expects(self::once())
+            ->method('request')
+            ->with(
+                'GET',
+                'https://127.0.0.1/index/_search',
+                ['body' => '[]', 'headers'=> ['Content-Type' => 'application/json']]
+            );
+
+        $client = new Client($httpClient, $url);
+        $client->query($action);
+    }
+
     public function testQuery(): void
     {
         $url = 'https://127.0.0.1';

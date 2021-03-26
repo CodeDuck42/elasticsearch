@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Added the changelog file
 - Added todo for the missing documentation
+- Added mutator testing via infection
 
 ### Changed
 - Switched all badges in the readme to shields.io

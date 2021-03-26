@@ -1,0 +1,15 @@
+{
+    "source": {
+        "directories": [
+            "src"
+        ]
+    },
+    "logs": {
+        "badge": {
+            "branch": "main"
+        }
+    }
+    "mutators": {
+        "@default": true
+    }
+}
