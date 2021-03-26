@@ -14,12 +14,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Switched all badges in the readme to shields.io
 - Modified the example code in the readme
 
-### Deprecated
 ### Removed
-### Fixed
-### Security
+- Removed last commit badge from the readme
 
 ## [v0.3.1](https://github.com/CodeDuck42/elasticsearch/compare/v0.3...v0.3.1)
+
+### Added
+- Added coverage reports via codecov
 
 ### Changed
 - Refactored the github workflows

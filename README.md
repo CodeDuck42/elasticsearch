@@ -5,7 +5,6 @@
 [![unit tests](https://img.shields.io/github/workflow/status/CodeDuck42/elasticsearch/Unit%20tests/main?style=flat-square&label=unit%20tests&logo=github)](https://github.com/CodeDuck42/elasticsearch)
 [![psalm](https://img.shields.io/github/workflow/status/CodeDuck42/elasticsearch/Static%20analysis/main?style=flat-square&label=psalm&logo=github)](https://github.com/CodeDuck42/elasticsearch)
 [![elasticsearch](https://img.shields.io/github/workflow/status/CodeDuck42/elasticsearch/Elasticsearch/main?style=flat-square&label=elasticsearch&logo=github)](https://github.com/CodeDuck42/elasticsearch)
-[![Last commit](https://img.shields.io/github/last-commit/CodeDuck42/elasticsearch?logo=github&style=flat-square)](https://github.com/CodeDuck42/elasticsearch)
 
 # Minimalistic elasticsearch client
 
