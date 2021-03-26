@@ -1,10 +1,11 @@
-[![Latest Stable Version](https://img.shields.io/packagist/v/codeduck/elasticsearch.svg?style=flat)](https://packagist.org/packages/codeduck/elasticsearch)
-[![PHP 7.4](https://img.shields.io/badge/php-7.4-8892BF.svg?style=flat)](https://php.net/)
-[![PHP 8.0](https://img.shields.io/badge/php-8.0-8892BF.svg?style=flat)](https://php.net/)
-[![codecov](https://codecov.io/gh/CodeDuck42/elasticsearch/branch/main/graph/badge.svg?token=I8AVSCQONG)](https://codecov.io/gh/CodeDuck42/elasticsearch)
-![unit tests](https://github.com/CodeDuck42/elasticsearch/actions/workflows/unit.yaml/badge.svg)
-![static analysis](https://github.com/CodeDuck42/elasticsearch/actions/workflows/static.yaml/badge.svg)
-![elasicsearch](https://github.com/CodeDuck42/elasticsearch/actions/workflows/integration.yaml/badge.svg)
+[![latest stable version](https://img.shields.io/packagist/v/codeduck/elasticsearch.svg?style=flat-square)](https://packagist.org/packages/codeduck/elasticsearch)
+[![license](https://img.shields.io/packagist/l/codeduck/elasticsearch?style=flat-square)](https://packagist.org/packages/codeduck/elasticsearch)
+[![php version](https://img.shields.io/packagist/php-v/codeduck/elasticsearch?style=flat-square)](https://packagist.org/packages/codeduck/elasticsearch)
+[![codecov](https://img.shields.io/codecov/c/github/CodeDuck42/elasticsearch?style=flat-square&logo=codecov&token=I8AVSCQONG)](https://codecov.io/gh/CodeDuck42/elasticsearch)
+[![unit tests](https://img.shields.io/github/workflow/status/CodeDuck42/elasticsearch/Unit%20tests/main?style=flat-square&label=unit%20tests&logo=github)](https://github.com/CodeDuck42/elasticsearch)
+[![psalm](https://img.shields.io/github/workflow/status/CodeDuck42/elasticsearch/Static%20analysis/main?style=flat-square&label=psalm&logo=github)](https://github.com/CodeDuck42/elasticsearch)
+[![elasticsearch](https://img.shields.io/github/workflow/status/CodeDuck42/elasticsearch/Elasticsearch/main?style=flat-square&label=elasticsearch&logo=github)](https://github.com/CodeDuck42/elasticsearch)
+[![Last commit](https://img.shields.io/github/last-commit/CodeDuck42/elasticsearch?logo=github&style=flat-square)](https://github.com/CodeDuck42/elasticsearch)
 
 # Minimalistic elasticsearch client
 
@@ -15,26 +16,27 @@ All issues should go to the [issue tracker from github](https://github.com/CodeD
 
 ## Features
 
-- Add document to an index
-- Delete document from an index
-- Bulk action for index and delete
-- Run a query on an index
-- The only external dependencies are symfony/http-client, ext-json
+- Adding a document to an elasticsearch index
+- Delete a document from an elasticsearch index
+- Send multiple adding and delete actions as a bulk action
+- Run a query on an elasticsearch index
 
 ## TODO
 
+- Complete documentation
 - Actions should return the response from elasticsearch, especially for bulk actions
 - Investigating options for authentication besides username and password in the server url (necessary?)
 
 ## Compatibility
 
-- PHP 7.4 + PHP 8.0
-- Elasticsearch 6 + 7
+- PHP 7.4 / PHP 8.0
+- Elasticsearch 6.x + 7.x
 
 ## Usage
 
 ~~~php
-use CodeDuck\Elasticsearch\Action\Bulk;use CodeDuck\Elasticsearch\Action\Delete;
+use CodeDuck\Elasticsearch\Action\Bulk;
+use CodeDuck\Elasticsearch\Action\Delete;
 use CodeDuck\Elasticsearch\Action\Index;
 use CodeDuck\Elasticsearch\Action\Query;
 use CodeDuck\Elasticsearch\Client;
