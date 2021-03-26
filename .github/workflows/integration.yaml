@@ -1,4 +1,4 @@
-name: 'CI / Elasticsearch'
+name: 'Elasticsearch'
 
 on: push
 

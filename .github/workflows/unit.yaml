@@ -1,4 +1,4 @@
-name: 'CI / Unit tests'
+name: 'Unit tests'
 
 on: push
 
