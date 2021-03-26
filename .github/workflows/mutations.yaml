@@ -31,4 +31,6 @@ jobs:
             -   name: Install dependencies
                 run: 'composer install -q -n --no-scripts --prefer-dist'
             -   name: Mutation tests
+                env:
+                    INFECTION_BADGE_API_KEY: ${{ secrets.INFECTION_BADGE_API_KEY }}
                 run: 'php vendor/bin/infection --test-framework-options="--testsuite=unit" -s --min-msi=95 --min-covered-msi=95'
