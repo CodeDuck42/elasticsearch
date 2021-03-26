@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased](https://github.com/CodeDuck42/elasticsearch/compare/v0.3.1...HEAD)
 
+## [v0.4](https://github.com/CodeDuck42/elasticsearch/compare/v0.3.1...v0.4)
+
 ### Added
 - Added the changelog file
 - Added todo for the missing documentation
