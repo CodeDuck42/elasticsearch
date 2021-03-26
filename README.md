@@ -4,7 +4,7 @@
 [![codecov](https://codecov.io/gh/CodeDuck42/elasticsearch/branch/main/graph/badge.svg?token=I8AVSCQONG)](https://codecov.io/gh/CodeDuck42/elasticsearch)
 ![unit tests](https://github.com/CodeDuck42/elasticsearch/actions/workflows/unit.yaml/badge.svg)
 ![static analysis](https://github.com/CodeDuck42/elasticsearch/actions/workflows/static.yaml/badge.svg)
-![elasicsearch](https://github.com/CodeDuck42/elasticsearch/actions/workflows/elasticsearch.yaml/badge.svg)
+![elasicsearch](https://github.com/CodeDuck42/elasticsearch/actions/workflows/integration.yaml/badge.svg)
 
 # Minimalistic elasticsearch client
 
