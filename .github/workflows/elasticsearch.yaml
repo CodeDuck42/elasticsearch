@@ -5,7 +5,7 @@ on: push
 jobs:
 
     integration:
-        name: v${{ matrix.elasticsearch }}
+        name: ES ${{ matrix.elasticsearch }}
         runs-on: ubuntu-latest
         strategy:
             matrix:
