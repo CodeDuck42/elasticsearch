@@ -31,8 +31,4 @@ jobs:
             -   name: Install dependencies
                 run: 'composer install -q -n --no-scripts --prefer-dist'
             -   name: Unit tests
-                run: 'php vendor/bin/phpunit --testsuite=unit --no-coverage'
-            -   name: Upload coverage
-                uses: codecov/codecov-action@v1
-                with:
-                    token: ${{ secrets.CODECOV_TOKEN }}
+                run: 'composer test:unit'

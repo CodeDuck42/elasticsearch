@@ -28,4 +28,4 @@ jobs:
             -   name: Install dependencies
                 run: 'composer install -q -n --no-scripts --prefer-dist'
             -   name: Static analysing
-                run: 'php vendor/bin/psalm --output-format=github --long-progress'
+                run: 'composer test:psalm -- --output-format=github --long-progress'
