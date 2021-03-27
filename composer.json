@@ -4,6 +4,7 @@
     "keywords": [
         "elasticsearch",
         "client",
+        "mini",
         "kiss",
         "simple"
     ],
@@ -46,9 +47,10 @@
         "vimeo/psalm": "^4.6"
     },
     "scripts": {
+        "test:coverage": "phpunit --testsuite=unit --coverage-text",
+        "test:infection": "infection --ansi --test-framework-options=\"--testsuite=unit\" -s --min-msi=95 --min-covered-msi=95",
+        "test:integration": "phpunit --testsuite=integration --no-coverage",
         "test:psalm": "psalm",
-        "test:unit": "phpunit --testsuite=unit",
-        "test:integration": "phpunit --testsuite=integration",
-        "test:coverage": "phpunit --testsuite=unit --coverage-text"
+        "test:unit": "phpunit --testsuite=unit"
     }
 }

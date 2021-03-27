@@ -41,5 +41,5 @@ jobs:
                     restore-keys: ${{ runner.os }}-composer-
             -   name: Install dependencies
                 run: 'composer install -q -n --no-scripts --prefer-dist'
-            -   name: Unit tests
-                run: php vendor/bin/phpunit --testsuite=integration --no-coverage
+            -   name: Integration tests
+                run: 'composer test:integration'
