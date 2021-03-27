@@ -51,6 +51,6 @@
         "test:infection": "infection --ansi --test-framework-options=\"--testsuite=unit\" -s --min-msi=95 --min-covered-msi=95",
         "test:integration": "phpunit --testsuite=integration --no-coverage",
         "test:psalm": "psalm",
-        "test:unit": "phpunit --testsuite=unit"
+        "test:unit": "phpunit --testsuite=unit --no-coverage"
     }
 }
