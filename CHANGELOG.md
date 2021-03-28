@@ -4,7 +4,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased](https://github.com/CodeDuck42/elasticsearch/compare/v0.3.1...HEAD)
+## [Unreleased](https://github.com/CodeDuck42/elasticsearch/compare/v0.5...HEAD)
+
+## [v0.5](https://github.com/CodeDuck42/elasticsearch/compare/v0.4...v0.5)
+
+### Added
+
+- Added a simpler client that works on a fixed index
+- Created interfaces for the clients for easier mocking
+- Added a documentation file for the exception structure
+
+### Changed
+- Moved value objects into a sub namespace
+- Moved interfaces into the Contracts namespace
+- Reorganized the namespace structure
+- Shortened the names of the most specific exceptions
 
 ## [v0.4](https://github.com/CodeDuck42/elasticsearch/compare/v0.3.1...v0.4)
 
