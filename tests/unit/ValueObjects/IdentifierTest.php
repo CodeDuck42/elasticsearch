@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace CodeDuck\Elasticsearch;
+namespace CodeDuck\Elasticsearch\ValueObjects;
 
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \CodeDuck\Elasticsearch\Identifier
+ * @covers \CodeDuck\Elasticsearch\ValueObjects\Identifier
  */
 class IdentifierTest extends TestCase
 {

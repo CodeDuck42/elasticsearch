@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace CodeDuck\Elasticsearch;
+namespace CodeDuck\Elasticsearch\ValueObjects;
 
 /**
  * @psalm-immutable
@@ -10,7 +10,7 @@ namespace CodeDuck\Elasticsearch;
 final class QueryResult
 {
     /** @var Document[] */
-    private array $documents = [];
+    private array $documents;
     private float $maxScore;
     private int $took;
 

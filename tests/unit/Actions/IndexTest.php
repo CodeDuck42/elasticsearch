@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace CodeDuck\Elasticsearch\Action;
+namespace CodeDuck\Elasticsearch\Actions;
 
-use CodeDuck\Elasticsearch\Document;
-use CodeDuck\Elasticsearch\Exception\ElasticsearchDataCouldNotBeEncodedException;
-use CodeDuck\Elasticsearch\Identifier;
+use CodeDuck\Elasticsearch\Exceptions\DataCouldNotBeEncodedException;
+use CodeDuck\Elasticsearch\ValueObjects\Document;
+use CodeDuck\Elasticsearch\ValueObjects\Identifier;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \CodeDuck\Elasticsearch\Action\Index
+ * @covers \CodeDuck\Elasticsearch\Actions\Index
  */
 class IndexTest extends TestCase
 {
@@ -43,7 +43,7 @@ class IndexTest extends TestCase
 
     public function testEncodingError(): void
     {
-        $this->expectException(ElasticsearchDataCouldNotBeEncodedException::class);
+        $this->expectException(DataCouldNotBeEncodedException::class);
 
         $action = new Index(new Document(new Identifier('index', 'ABC123', 'document'), ['broken' => tmpfile()]));
         $action->getRequest();

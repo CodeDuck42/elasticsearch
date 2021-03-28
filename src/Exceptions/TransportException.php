@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace CodeDuck\Elasticsearch\Exception;
+namespace CodeDuck\Elasticsearch\Exceptions;
 
 use Throwable;
 
 /**
  * @codeCoverageIgnore
  */
-final class ElasticsearchTransportException extends ElasticsearchException
+final class TransportException extends ElasticsearchException
 {
     public function __construct(Throwable $previous = null)
     {

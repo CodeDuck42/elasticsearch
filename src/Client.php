@@ -4,16 +4,19 @@ declare(strict_types=1);
 
 namespace CodeDuck\Elasticsearch;
 
-use CodeDuck\Elasticsearch\Action\ActionInterface;
-use CodeDuck\Elasticsearch\Action\Query;
-use CodeDuck\Elasticsearch\Exception\ElasticsearchDataCouldNotBeDecodedException;
-use CodeDuck\Elasticsearch\Exception\ElasticsearchTransportException;
+use CodeDuck\Elasticsearch\Contracts\ActionInterface;
+use CodeDuck\Elasticsearch\Contracts\ClientInterface;
+use CodeDuck\Elasticsearch\Contracts\QueryActionInterface;
+use CodeDuck\Elasticsearch\Exceptions\DataCouldNotBeDecodedException;
+use CodeDuck\Elasticsearch\Exceptions\TransportException;
+use CodeDuck\Elasticsearch\ValueObjects\QueryResult;
+use CodeDuck\Elasticsearch\ValueObjects\Request;
 use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\HttpExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-class Client
+class Client implements ClientInterface
 {
     private HttpClientInterface $httpClient;
     private string $url;
@@ -24,14 +27,11 @@ class Client
         $this->url = rtrim($url, '/');
     }
 
-    public function execute(ActionInterface $action): void
+    public function execute(ActionInterface $action): ?QueryResult
     {
-        $this->request($action->getRequest());
-    }
+        $result = $this->request($action->getRequest());
 
-    public function query(Query $query): QueryResult
-    {
-        return QueryResult::fromArray($this->request($query->getRequest()));
+        return $action instanceof QueryActionInterface ? QueryResult::fromArray($result) : null;
     }
 
     private function request(Request $request): array
@@ -46,9 +46,9 @@ class Client
                 ]
             )->toArray();
         } catch (TransportExceptionInterface | HttpExceptionInterface $e) {
-            throw new ElasticsearchTransportException($e);
+            throw new TransportException($e);
         } catch (DecodingExceptionInterface $e) {
-            throw new ElasticsearchDataCouldNotBeDecodedException($e);
+            throw new DataCouldNotBeDecodedException($e);
         }
     }
 }

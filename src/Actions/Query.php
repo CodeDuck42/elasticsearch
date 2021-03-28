@@ -2,16 +2,17 @@
 
 declare(strict_types=1);
 
-namespace CodeDuck\Elasticsearch\Action;
+namespace CodeDuck\Elasticsearch\Actions;
 
-use CodeDuck\Elasticsearch\Exception\ElasticsearchDataCouldNotBeEncodedException;
-use CodeDuck\Elasticsearch\Request;
+use CodeDuck\Elasticsearch\Contracts\QueryActionInterface;
+use CodeDuck\Elasticsearch\Exceptions\DataCouldNotBeEncodedException;
+use CodeDuck\Elasticsearch\ValueObjects\Request;
 use JsonException;
 
 /**
  * @psalm-immutable
  */
-final class Query implements ActionInterface
+final class Query implements QueryActionInterface
 {
     private string $index;
     private array $query;
@@ -37,7 +38,7 @@ final class Query implements ActionInterface
         try {
             return json_encode($this->query, JSON_THROW_ON_ERROR);
         } catch (JsonException $e) {
-            throw new ElasticsearchDataCouldNotBeEncodedException($e);
+            throw new DataCouldNotBeEncodedException($e);
         }
     }
 }

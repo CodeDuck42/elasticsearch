@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-namespace CodeDuck\Elasticsearch\Exception;
+namespace CodeDuck\Elasticsearch\Exceptions;
 
 use RuntimeException;
 use Throwable;
 
 /**
+ * @internal
  * @codeCoverageIgnore
  */
 class ElasticsearchException extends RuntimeException

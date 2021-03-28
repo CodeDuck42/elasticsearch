@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace CodeDuck\Elasticsearch;
+namespace CodeDuck\Elasticsearch\ValueObjects;
 
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \CodeDuck\Elasticsearch\Request
+ * @covers \CodeDuck\Elasticsearch\ValueObjects\Request
  */
 class RequestTest extends TestCase
 {

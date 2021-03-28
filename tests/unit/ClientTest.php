@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace CodeDuck\Elasticsearch;
 
-use CodeDuck\Elasticsearch\Action\Index;
-use CodeDuck\Elasticsearch\Action\Query;
-use CodeDuck\Elasticsearch\Exception\ElasticsearchDataCouldNotBeDecodedException;
-use CodeDuck\Elasticsearch\Exception\ElasticsearchDataCouldNotBeEncodedException;
-use CodeDuck\Elasticsearch\Exception\ElasticsearchTransportException;
+use CodeDuck\Elasticsearch\Actions\Index;
+use CodeDuck\Elasticsearch\Actions\Query;
+use CodeDuck\Elasticsearch\Exceptions\DataCouldNotBeDecodedException;
+use CodeDuck\Elasticsearch\Exceptions\DataCouldNotBeEncodedException;
+use CodeDuck\Elasticsearch\Exceptions\TransportException;
+use CodeDuck\Elasticsearch\ValueObjects\Document;
+use CodeDuck\Elasticsearch\ValueObjects\Identifier;
+use CodeDuck\Elasticsearch\ValueObjects\QueryResult;
 use PHPUnit\Framework\TestCase;
 use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
@@ -36,7 +39,9 @@ class ClientTest extends TestCase
             );
 
         $client = new Client($httpClient, $url);
-        $client->execute($action);
+        $result = $client->execute($action);
+
+        self::assertNull($result);
     }
 
     public function testBrokenRequestDocument(): void
@@ -44,7 +49,7 @@ class ClientTest extends TestCase
         $url = 'https://127.0.0.1';
         $action = new Index(new Document(new Identifier('index', '123'), ['broken' => tmpfile()]));
 
-        $this->expectException(ElasticsearchDataCouldNotBeEncodedException::class);
+        $this->expectException(DataCouldNotBeEncodedException::class);
 
         $client = new Client($this->createMock(HttpClientInterface::class), $url);
         $client->execute($action);
@@ -58,10 +63,10 @@ class ClientTest extends TestCase
         $httpClient = $this->createMock(HttpClientInterface::class);
         $httpClient->method('request')->willThrowException($this->createMock(DecodingExceptionInterface::class));
 
-        $this->expectException(ElasticsearchDataCouldNotBeDecodedException::class);
+        $this->expectException(DataCouldNotBeDecodedException::class);
 
         $client = new Client($httpClient, $url);
-        $client->query($action);
+        $client->execute($action);
     }
 
     public function testHttpError(): void
@@ -72,29 +77,10 @@ class ClientTest extends TestCase
         $httpClient = $this->createMock(HttpClientInterface::class);
         $httpClient->method('request')->willThrowException($this->createMock(TransportExceptionInterface::class));
 
-        $this->expectException(ElasticsearchTransportException::class);
+        $this->expectException(TransportException::class);
 
         $client = new Client($httpClient, $url);
-        $client->query($action);
-    }
-
-    public function testServerAddressWithTrailingSlash(): void
-    {
-        $url = 'https://127.0.0.1/';
-        $action = new Query([], 'index');
-
-        $httpClient = $this->createMock(HttpClientInterface::class);
-        $httpClient
-            ->expects(self::once())
-            ->method('request')
-            ->with(
-                'GET',
-                'https://127.0.0.1/index/_search',
-                ['body' => '[]', 'headers'=> ['Content-Type' => 'application/json']]
-            );
-
-        $client = new Client($httpClient, $url);
-        $client->query($action);
+        $client->execute($action);
     }
 
     public function testQuery(): void
@@ -114,6 +100,27 @@ class ClientTest extends TestCase
             );
 
         $client = new Client($httpClient, $url);
-        $client->query($action);
+        $result = $client->execute($action);
+
+        self::assertInstanceOf(QueryResult::class, $result);
+    }
+
+    public function testServerAddressWithTrailingSlash(): void
+    {
+        $url = 'https://127.0.0.1/';
+        $action = new Query([], 'index');
+
+        $httpClient = $this->createMock(HttpClientInterface::class);
+        $httpClient
+            ->expects(self::once())
+            ->method('request')
+            ->with(
+                'GET',
+                'https://127.0.0.1/index/_search',
+                ['body' => '[]', 'headers' => ['Content-Type' => 'application/json']]
+            );
+
+        $client = new Client($httpClient, $url);
+        $client->execute($action);
     }
 }

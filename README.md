@@ -35,13 +35,13 @@ All issues should go to the [issue tracker from github](https://github.com/CodeD
 ## Usage
 
 ~~~php
-use CodeDuck\Elasticsearch\Action\Bulk;
-use CodeDuck\Elasticsearch\Action\Delete;
-use CodeDuck\Elasticsearch\Action\Index;
-use CodeDuck\Elasticsearch\Action\Query;
+use CodeDuck\Elasticsearch\Actions\Bulk;
+use CodeDuck\Elasticsearch\Actions\Delete;
+use CodeDuck\Elasticsearch\Actions\Index;
+use CodeDuck\Elasticsearch\Actions\Query;
 use CodeDuck\Elasticsearch\Client;
-use CodeDuck\Elasticsearch\Document;
-use CodeDuck\Elasticsearch\Identifier;
+use CodeDuck\Elasticsearch\ValueObjects\Document;
+use CodeDuck\Elasticsearch\ValueObjects\Identifier;
 use Symfony\Component\HttpClient\HttpClient;
 
 $id1 = new Identifier('my-index', 'ID-123', '_doc');
@@ -75,7 +75,7 @@ $documents = [
 $client->execute(new Bulk(...$documents));
 
 // do a search
-$result = $client->query(
+$result = $client->execute(
     new Query(['query' => ['term' => ['name' => 'foobar']]], 'my-index')
 );
 

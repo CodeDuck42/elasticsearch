@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace CodeDuck\Elasticsearch\Action;
+namespace CodeDuck\Elasticsearch\Actions;
 
-use CodeDuck\Elasticsearch\Document;
-use CodeDuck\Elasticsearch\Exception\ElasticsearchDataCouldNotBeEncodedException;
-use CodeDuck\Elasticsearch\Request;
+use CodeDuck\Elasticsearch\Contracts\BulkActionInterface;
+use CodeDuck\Elasticsearch\Exceptions\DataCouldNotBeEncodedException;
+use CodeDuck\Elasticsearch\ValueObjects\Document;
+use CodeDuck\Elasticsearch\ValueObjects\Request;
 use JsonException;
 
 /**
@@ -54,7 +55,7 @@ final class Index implements BulkActionInterface
         try {
             return json_encode($this->document->getSource(), JSON_THROW_ON_ERROR);
         } catch (JsonException $e) {
-            throw new ElasticsearchDataCouldNotBeEncodedException($e);
+            throw new DataCouldNotBeEncodedException($e);
         }
     }
 }

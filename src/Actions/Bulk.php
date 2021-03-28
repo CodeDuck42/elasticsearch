@@ -2,15 +2,23 @@
 
 declare(strict_types=1);
 
-namespace CodeDuck\Elasticsearch\Action;
+namespace CodeDuck\Elasticsearch\Actions;
 
-use CodeDuck\Elasticsearch\Exception\ElasticsearchDataCouldNotBeEncodedException;
-use CodeDuck\Elasticsearch\Request;
+use CodeDuck\Elasticsearch\Contracts\ActionInterface;
+use CodeDuck\Elasticsearch\Contracts\BulkActionInterface;
+use CodeDuck\Elasticsearch\Exceptions\DataCouldNotBeEncodedException;
+use CodeDuck\Elasticsearch\ValueObjects\Request;
 use JsonException;
 
+/**
+ * @psalm-immutable
+ */
 final class Bulk implements ActionInterface
 {
-    /** @var BulkActionInterface[] */
+    /**
+     * @var BulkActionInterface[]
+     * @psalm-readonly
+     */
     private array $actions;
 
     public function __construct(BulkActionInterface ...$actions)
@@ -37,7 +45,7 @@ final class Bulk implements ActionInterface
                 }
             }
         } catch (JsonException $e) {
-            throw new ElasticsearchDataCouldNotBeEncodedException($e);
+            throw new DataCouldNotBeEncodedException($e);
         }
 
         return $body;
