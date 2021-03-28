@@ -11,6 +11,7 @@ use CodeDuck\Elasticsearch\Actions\Query;
 use CodeDuck\Elasticsearch\Contracts\ActionInterface;
 use CodeDuck\Elasticsearch\Contracts\BulkActionInterface;
 use CodeDuck\Elasticsearch\Contracts\ClientInterface;
+use CodeDuck\Elasticsearch\Contracts\QueryActionInterface;
 use CodeDuck\Elasticsearch\Contracts\SimpleClientInterface;
 use CodeDuck\Elasticsearch\ValueObjects\Document;
 use CodeDuck\Elasticsearch\ValueObjects\Identifier;
@@ -78,6 +79,10 @@ class SimpleClient implements SimpleClientInterface
      */
     private function execute(ActionInterface $action): ?QueryResult
     {
+        if ($action instanceof QueryActionInterface) {
+            return $this->client->execute($action);
+        }
+
         if ($this->isBulkActive && $action instanceof BulkActionInterface) {
             $this->bulkActions[] = $action;
 
