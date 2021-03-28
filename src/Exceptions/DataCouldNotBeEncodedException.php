@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace CodeDuck\Elasticsearch\Exception;
+namespace CodeDuck\Elasticsearch\Exceptions;
 
 use Throwable;
 
 /**
  * @codeCoverageIgnore
  */
-final class ElasticsearchDataCouldNotBeEncodedException extends ElasticsearchException
+final class DataCouldNotBeEncodedException extends ElasticsearchException
 {
     public function __construct(Throwable $previous = null)
     {

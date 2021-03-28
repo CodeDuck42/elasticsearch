@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace CodeDuck\Elasticsearch;
+namespace CodeDuck\Elasticsearch\ValueObjects;
 
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \CodeDuck\Elasticsearch\Document
+ * @covers \CodeDuck\Elasticsearch\ValueObjects\Document
  */
 class DocumentTest extends TestCase
 {
@@ -23,6 +23,17 @@ class DocumentTest extends TestCase
         self::assertEquals('22222', $document->getIdentifier()->getId());
         self::assertEquals(0.0, $document->getScore());
         self::assertEquals(['name' => 'banana'], $document->getSource());
+    }
+
+    public function testBrokenArray(): void
+    {
+        $document = Document::fromArray([]);
+
+        self::assertEquals('', $document->getIdentifier()->getIndex());
+        self::assertEquals('_doc', $document->getIdentifier()->getType());
+        self::assertEquals('', $document->getIdentifier()->getId());
+        self::assertEquals(0.0, $document->getScore());
+        self::assertEquals([], $document->getSource());
     }
 
     public function testFromArray(): void
@@ -44,16 +55,5 @@ class DocumentTest extends TestCase
         self::assertEquals('22222', $document->getIdentifier()->getId());
         self::assertEquals(0.6931471, $document->getScore());
         self::assertEquals(['name' => 'banana'], $document->getSource());
-    }
-
-    public function testBrokenArray(): void
-    {
-        $document = Document::fromArray([]);
-
-        self::assertEquals('', $document->getIdentifier()->getIndex());
-        self::assertEquals('_doc', $document->getIdentifier()->getType());
-        self::assertEquals('', $document->getIdentifier()->getId());
-        self::assertEquals(0.0, $document->getScore());
-        self::assertEquals([], $document->getSource());
     }
 }

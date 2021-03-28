@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace CodeDuck\Elasticsearch\Action;
+namespace CodeDuck\Elasticsearch\Actions;
 
-use CodeDuck\Elasticsearch\Exception\ElasticsearchDataCouldNotBeEncodedException;
+use CodeDuck\Elasticsearch\Exceptions\DataCouldNotBeEncodedException;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \CodeDuck\Elasticsearch\Action\Query
+ * @covers \CodeDuck\Elasticsearch\Actions\Query
  */
 class QueryTest extends TestCase
 {
@@ -25,7 +25,7 @@ class QueryTest extends TestCase
 
     public function testEncodingError(): void
     {
-        $this->expectException(ElasticsearchDataCouldNotBeEncodedException::class);
+        $this->expectException(DataCouldNotBeEncodedException::class);
 
         $action = new Query(['broken' => tmpfile()], 'index');
         $action->getRequest();

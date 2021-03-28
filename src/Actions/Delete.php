@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace CodeDuck\Elasticsearch\Action;
+namespace CodeDuck\Elasticsearch\Actions;
 
-use CodeDuck\Elasticsearch\Identifier;
-use CodeDuck\Elasticsearch\Request;
+use CodeDuck\Elasticsearch\Contracts\BulkActionInterface;
+use CodeDuck\Elasticsearch\ValueObjects\Identifier;
+use CodeDuck\Elasticsearch\ValueObjects\Request;
 
 /**
  * @psalm-immutable

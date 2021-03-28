@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace CodeDuck\Elasticsearch;
+namespace CodeDuck\Elasticsearch\ValueObjects;
 
 /**
  * @psalm-immutable

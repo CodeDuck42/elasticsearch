@@ -2,14 +2,15 @@
 
 declare(strict_types=1);
 
-namespace CodeDuck\Elasticsearch\Action;
+namespace CodeDuck\Elasticsearch\Actions;
 
-use CodeDuck\Elasticsearch\Exception\ElasticsearchDataCouldNotBeEncodedException;
-use CodeDuck\Elasticsearch\Request;
+use CodeDuck\Elasticsearch\Contracts\BulkActionInterface;
+use CodeDuck\Elasticsearch\Exceptions\DataCouldNotBeEncodedException;
+use CodeDuck\Elasticsearch\ValueObjects\Request;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \CodeDuck\Elasticsearch\Action\Bulk
+ * @covers \CodeDuck\Elasticsearch\Actions\Bulk
  */
 class BulkTest extends TestCase
 {
@@ -37,7 +38,7 @@ class BulkTest extends TestCase
         $action = $this->createMock(BulkActionInterface::class);
         $action->method('getBulkAction')->willReturn(['broken' => tmpfile()]);
 
-        $this->expectException(ElasticsearchDataCouldNotBeEncodedException::class);
+        $this->expectException(DataCouldNotBeEncodedException::class);
 
         $bulk = new Bulk($action);
         $bulk->getRequest();

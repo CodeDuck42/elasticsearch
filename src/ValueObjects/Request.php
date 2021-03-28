@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace CodeDuck\Elasticsearch;
+namespace CodeDuck\Elasticsearch\ValueObjects;
 
 /**
  * @internal
  * @psalm-immutable
  */
-class Request
+final class Request
 {
     private string $absolutePath;
     private ?string $body;

@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace CodeDuck\Elasticsearch\Action;
+namespace CodeDuck\Elasticsearch\Actions;
 
-use CodeDuck\Elasticsearch\Identifier;
+use CodeDuck\Elasticsearch\ValueObjects\Identifier;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \CodeDuck\Elasticsearch\Action\Delete
+ * @covers \CodeDuck\Elasticsearch\Actions\Delete
  */
 class DeleteTest extends TestCase
 {
