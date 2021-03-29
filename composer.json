@@ -27,10 +27,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "CodeDuck\\Elasticsearch\\": [
-                "tests/unit/",
-                "tests/integration/"
-            ]
+            "CodeDuck\\Elasticsearch\\": "tests/"
         }
     },
     "require": {
@@ -47,10 +44,10 @@
         "vimeo/psalm": "^4.6"
     },
     "scripts": {
-        "test:coverage": "phpunit --testsuite=unit --coverage-text",
-        "test:infection": "infection --ansi --test-framework-options=\"--testsuite=unit\" -s --min-msi=95 --min-covered-msi=95",
-        "test:integration": "phpunit --testsuite=integration --no-coverage",
+        "test:coverage": "phpunit --exclude-group=integration --coverage-text",
+        "test:infection": "infection --ansi --test-framework-options=\"--exclude-group=integration\" -s --min-msi=95 --min-covered-msi=95",
+        "test:integration": "phpunit --group=integration --no-coverage",
         "test:psalm": "psalm",
-        "test:unit": "phpunit --testsuite=unit --no-coverage"
+        "test:unit": "phpunit --exclude-group=integration --no-coverage"
     }
 }

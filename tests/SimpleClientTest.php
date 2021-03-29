@@ -9,9 +9,11 @@ use CodeDuck\Elasticsearch\Actions\Delete;
 use CodeDuck\Elasticsearch\Actions\Index;
 use CodeDuck\Elasticsearch\Actions\Query;
 use CodeDuck\Elasticsearch\Contracts\ClientInterface;
+use CodeDuck\Elasticsearch\Exceptions\TransportException;
 use CodeDuck\Elasticsearch\ValueObjects\QueryResult;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\HttpClient\HttpClient;
 
 /**
  * @covers \CodeDuck\Elasticsearch\SimpleClient
@@ -92,6 +94,73 @@ class SimpleClientTest extends TestCase
             ->with(self::isInstanceOf(Delete::class));
 
         $this->sut->delete('1234');
+    }
+
+    /**
+     * @group integration
+     */
+    public function testOnTheIntegrationServerBulkDeleteWithNoneExistingDocument(): void
+    {
+        $sut = new SimpleClient(new Client(HttpClient::create(), 'http://localhost:9200'), 'test-index');
+        $sut->begin();
+        $sut->delete('TBDWNED');
+        $sut->commit();
+
+        self::assertTrue(true);
+    }
+
+    /**
+     * @group integration
+     */
+    public function testOnTheIntegrationServerDeleteWithExistingDocument(): void
+    {
+        $sut = new SimpleClient(new Client(HttpClient::create(), 'http://localhost:9200'), 'test-index');
+        $sut->add('TDWED', ['name' => 'example']);
+        sleep(5); // wait for index
+        $sut->delete('TDWED');
+
+        self::assertTrue(true);
+    }
+
+    /**
+     * @group integration
+     */
+    public function testOnTheIntegrationServerDeleteWithNoneExistingDocument(): void
+    {
+        $this->expectException(TransportException::class);
+
+        $sut = new SimpleClient(new Client(HttpClient::create(), 'http://localhost:9200'), 'test-index');
+        $sut->delete('TDWNED');
+    }
+
+    /**
+     * @group integration
+     */
+    public function testOnTheIntegrationServerIndex(): void
+    {
+        $sut = new SimpleClient(new Client(HttpClient::create(), 'http://localhost:9200'), 'test-index');
+        $sut->add('11111', ['name' => 'example']);
+
+        self::assertTrue(true);
+    }
+
+    /**
+     * @group integration
+     */
+    public function testOnTheIntegrationServerQuery(): void
+    {
+        $sut = new SimpleClient(new Client(HttpClient::create(), 'http://localhost:9200'), 'test-index');
+        $sut->begin();
+        $sut->add('11111', ['name' => 'example']);
+        $sut->add('22222', ['name' => 'banana']);
+        $sut->commit();
+
+        sleep(5); // wait for index
+
+        $result = $sut->query(['query' => ['term' => ['name' => 'banana']]]);
+
+        self::assertEquals(1, $result->getCount());
+        self::assertEquals(['name' => 'banana'], $result->getDocuments()[0]->getSource());
     }
 
     public function testQuery(): void
