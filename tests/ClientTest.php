@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace CodeDuck\Elasticsearch;
 
+use CodeDuck\Elasticsearch\Actions\Bulk;
+use CodeDuck\Elasticsearch\Actions\Delete;
 use CodeDuck\Elasticsearch\Actions\Index;
 use CodeDuck\Elasticsearch\Actions\Query;
 use CodeDuck\Elasticsearch\Exceptions\DataCouldNotBeDecodedException;
@@ -13,6 +15,7 @@ use CodeDuck\Elasticsearch\ValueObjects\Document;
 use CodeDuck\Elasticsearch\ValueObjects\Identifier;
 use CodeDuck\Elasticsearch\ValueObjects\QueryResult;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -38,8 +41,8 @@ class ClientTest extends TestCase
                 ['body' => $request->getBody(), 'headers' => $request->getHeaders()]
             );
 
-        $client = new Client($httpClient, $url);
-        $result = $client->execute($action);
+        $sut = new Client($httpClient, $url);
+        $result = $sut->execute($action);
 
         self::assertNull($result);
     }
@@ -51,8 +54,8 @@ class ClientTest extends TestCase
 
         $this->expectException(DataCouldNotBeEncodedException::class);
 
-        $client = new Client($this->createMock(HttpClientInterface::class), $url);
-        $client->execute($action);
+        $sut = new Client($this->createMock(HttpClientInterface::class), $url);
+        $sut->execute($action);
     }
 
     public function testBrokenResponseDocument(): void
@@ -65,8 +68,8 @@ class ClientTest extends TestCase
 
         $this->expectException(DataCouldNotBeDecodedException::class);
 
-        $client = new Client($httpClient, $url);
-        $client->execute($action);
+        $sut = new Client($httpClient, $url);
+        $sut->execute($action);
     }
 
     public function testHttpError(): void
@@ -79,8 +82,81 @@ class ClientTest extends TestCase
 
         $this->expectException(TransportException::class);
 
-        $client = new Client($httpClient, $url);
-        $client->execute($action);
+        $sut = new Client($httpClient, $url);
+        $sut->execute($action);
+    }
+
+    /**
+     * @group integration
+     */
+    public function testOnTheIntegrationServerBulkDeletingMissingDocumentsShouldWork(): void
+    {
+        $identifier = new Identifier('test-index', 'TBDWNED');
+
+        $sut = new Client(HttpClient::create(), 'http://localhost:9200');
+        $sut->execute(new Bulk(new Delete($identifier)));
+
+        self::assertTrue(true);
+    }
+
+    /**
+     * @group integration
+     */
+    public function testOnTheIntegrationServerDeletingAMissingDocumentShouldThrowTransportException(): void
+    {
+        $this->expectException(TransportException::class);
+
+        $sut = new Client(HttpClient::create(), 'http://localhost:9200');
+        $sut->execute(new Delete(new Identifier('test-index', 'TDWNED')));
+    }
+
+    /**
+     * @group integration
+     */
+    public function testOnTheIntegrationServerDeletingAnExistingDocumentShouldWork(): void
+    {
+        $identifier = new Identifier('test-index', 'TDWED');
+
+        $sut = new Client(HttpClient::create(), 'http://localhost:9200');
+        $sut->execute(new Index(new Document($identifier, ['name' => 'example'])));
+        sleep(5); // wait for index
+        $sut->execute(new Delete($identifier));
+
+        self::assertTrue(true);
+    }
+
+    /**
+     * @group integration
+     */
+    public function testOnTheIntegrationServerIndexingADocumentShouldWork(): void
+    {
+        $sut = new Client(HttpClient::create(), 'http://localhost:9200');
+        $sut->execute(new Index(new Document(new Identifier('test-index', '11111'), ['name' => 'example'])));
+
+        self::assertTrue(true);
+    }
+
+    /**
+     * @group integration
+     */
+    public function testOnTheIntegrationServerRunningASearchQueryShouldReturnAMatchingResult(): void
+    {
+        $sut = new Client(HttpClient::create(), 'http://localhost:9200');
+        $sut->execute(
+            new Bulk(
+                new Index(new Document(new Identifier('test-index', '11111'), ['name' => 'example'])),
+                new Index(new Document(new Identifier('test-index', '22222'), ['name' => 'banana'])),
+            )
+        );
+
+        sleep(5); // wait for index
+
+        $action = new Query(['query' => ['term' => ['name' => 'banana']]], 'test-index');
+        $result = $sut->execute($action);
+
+        self::assertInstanceOf(QueryResult::class, $result);
+        self::assertEquals(1, $result->getCount());
+        self::assertEquals(['name' => 'banana'], $result->getDocuments()[0]->getSource());
     }
 
     public function testQuery(): void
@@ -99,8 +175,8 @@ class ClientTest extends TestCase
                 ['body' => $request->getBody(), 'headers' => $request->getHeaders()]
             );
 
-        $client = new Client($httpClient, $url);
-        $result = $client->execute($action);
+        $sut = new Client($httpClient, $url);
+        $result = $sut->execute($action);
 
         self::assertInstanceOf(QueryResult::class, $result);
     }
@@ -120,7 +196,7 @@ class ClientTest extends TestCase
                 ['body' => '[]', 'headers' => ['Content-Type' => 'application/json']]
             );
 
-        $client = new Client($httpClient, $url);
-        $client->execute($action);
+        $sut = new Client($httpClient, $url);
+        $sut->execute($action);
     }
 }

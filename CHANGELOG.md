@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased](https://github.com/CodeDuck42/elasticsearch/compare/v0.5...HEAD)
 
+### Changed
+- Moved functional testing to the regular test classes
+
 ## [v0.5](https://github.com/CodeDuck42/elasticsearch/compare/v0.4...v0.5)
 
 ### Added
